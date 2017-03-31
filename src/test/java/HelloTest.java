@@ -8,7 +8,7 @@ import org.junit.Test;
 public class HelloTest {
     @Test
     public void testGetHello() throws Exception {
-        Assert.assertEquals("Hello World", Hello.getHello());
+        Assert.assertEquals("Hello Universe!!!", Hello.getHello());
     }
 
     @Test

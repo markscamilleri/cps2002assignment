@@ -4,7 +4,7 @@
  */
 public class Hello {
     public static final String getHello() {
-        return "Hello World";
+        return "Hello Universe!!!";
     }
 
     public static final String getName() {
