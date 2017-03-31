@@ -1,0 +1,9 @@
+#intellij Stuff
+.idea/
+*.iml
+
+
+#Java Stuff
+**/*.class
+**/*.jar
+
