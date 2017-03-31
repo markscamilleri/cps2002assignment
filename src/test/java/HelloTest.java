@@ -16,8 +16,13 @@ public class HelloTest {
         Assert.assertEquals("Denise and Mark Assignment", Hello.getName());
     }
 
+    @Test
     public void testGetDate() throws Exception {
         Assert.assertEquals("Friday 31 March, Happy Holiday!", Hello.getDate());
     }
     
+    @Test
+    public void testGetAnswerToLife() throws Exception {
+        Assert.assertEquals(42, Hello.getAnswerToLife());
+    }
 }

@@ -15,6 +15,10 @@ public class Hello {
         return "Friday 31 March, Happy Holiday!";
     }
 
+    public static final int getAnswerToLife() {
+        return 42;
+    }
+    
     public static void main(String[] args) {
         System.out.println(getHello());
         System.out.println(getName());
