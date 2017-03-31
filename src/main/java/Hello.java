@@ -15,7 +15,7 @@ public class Hello {
         return "Friday 31 March, Happy Holiday!";
     }
 
-    public static final int getAnswerToLife() {
+    public static final short getAnswerToLife() {
         return 42;
     }
     
