@@ -1,7 +1,8 @@
 /**
- * Created by denise on 12/04/2017.
+ * @author denise
+ * @version 12/04/2017.
  */
-public class Map {
+public class Map extends Game{
     int size;
 
     public boolean setMapSize(int x, int y){
