@@ -2,7 +2,12 @@
  * @author mark
  * @version 31/03/17.
  */
-public class Hello {
+
+/**
+ * Renamed Hello.java to Launcher.java
+ */
+
+public class Launcher {
     public static final String getHello() {
         return "Hello Universe!!!";
     }
@@ -16,7 +21,7 @@ public class Hello {
     }
 
     public static final short getAnswerToLife() {
-        return 42;
+        return 007;
     }
     
     public static void main(String[] args) {
