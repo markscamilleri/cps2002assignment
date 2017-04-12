@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class PositionTest {
     @Test
-    public void testXPosition() throws Exception{
+    public void testPosition() throws Exception{
         Assert.assertNotNull(Position.class);
     }
 }
