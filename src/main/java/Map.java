@@ -9,9 +9,7 @@ public class Map extends Game{
         return true;
     }
 
-    public void generate(){
-
-    }
+    public void generate(){}
 
     public char getTileType(int x, int y){
         return 'x';
