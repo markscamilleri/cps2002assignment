@@ -4,7 +4,7 @@ import static java.lang.Character.toLowerCase;
 
 /**
  * @author denise
- * @version 12/04/2017
+ * @version 13/04/2017
  */
 
 public class Player extends Position{

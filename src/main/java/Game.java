@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Created by denise on 12/04/2017.
+ * @author denise
+ * @version 13/04/2017.
  */
 public class Game extends Player{
     protected int numOfPlayers;

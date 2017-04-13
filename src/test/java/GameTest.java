@@ -4,7 +4,7 @@ import org.junit.Test;
 
 /**
  * @author denise
- * @version 12/04/2017
+ * @version 13/04/2017
  */
 public class GameTest extends Game{
     @Test
