@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -23,8 +27,8 @@ public class Game extends Player{
             for(int i=0; i<numOfPlayers; i++){
                 Player p = new Player();
                 players[i] = p;
-                generateHTMLFiles();
             }
+            generateHTMLFiles();
         } else {
             System.out.println("Enter the number of players:");
             numOfPlayers = scan.nextInt();
@@ -39,6 +43,41 @@ public class Game extends Player{
     }
 
     public void generateHTMLFiles(){
+        String pathToFile = "src/gamefiles/test.html";
 
+        File file = new File(pathToFile);
+        if(file.exists()) {
+            file.delete();
+        }
+        //Write to file
+
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+
+        try{
+            String content = "<html>Hello. \nI am now writing this 2nd line</html>";
+
+            fileWriter = new FileWriter(pathToFile, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(content);
+
+        } catch (IOException ex) {
+            ex.getMessage();
+        } finally {
+            if (bufferedWriter != null) {
+                try {
+                    bufferedWriter.close();
+                } catch (IOException ex) {
+                    ex.getMessage();
+                }
+            }
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException ex) {
+                    ex.getMessage();
+                }
+            }
+        }
     }
 }
