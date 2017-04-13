@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -9,13 +6,16 @@ import java.util.Scanner;
  * @version 13/04/2017.
  */
 public class Game extends Player{
-    protected int numOfPlayers;
+    public int numOfPlayers;
     public int turns;
     public int mapSize;
     public Player players[];
 
     public void startGame() {
-        Scanner scan = new Scanner(System.in);
+        ByteArrayInputStream in = new ByteArrayInputStream(Integer.toString(numOfPlayers).getBytes());
+        System.setIn(in);
+
+        Scanner scan = new Scanner(in);
         System.out.println("Enter the number of players:");
         numOfPlayers = scan.nextInt();
 
