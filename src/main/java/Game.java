@@ -37,46 +37,57 @@ public class Game extends Player{
     }
 
     public boolean setNumPlayers(int n){
-        if(n<2 || n>8){
-            return false;
-        }
-        return true;
+        return !(n < 2 || n > 8);
     }
 
     public void generateHTMLFiles(){
-        String pathToFile = "src/gamefiles/test.html";
+        int playerIndex = 1;
 
-        File file = new File(pathToFile);
-        if(file.exists()) {
-            file.delete();
-        }
-        //Write to file
+        /**
+         * Deleting all previously created game files
+         */
 
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
-
-        try{
-            String content = "<html>Hello. \nI am now writing this 2nd line</html>";
-
-            fileWriter = new FileWriter(pathToFile, true);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(content);
-
-        } catch (IOException ex) {
-            ex.getMessage();
-        } finally {
-            if (bufferedWriter != null) {
-                try {
-                    bufferedWriter.close();
-                } catch (IOException ex) {
-                    ex.getMessage();
-                }
+        File dir = new File("src/gamefiles");
+        for (File file: dir.listFiles()) {
+            if (!file.isDirectory()) {
+                file.delete();
             }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException ex) {
-                    ex.getMessage();
+        }
+
+        /**
+         * Creating new game files according to the new game
+         */
+
+        for (int i=0; i<numOfPlayers; i++, playerIndex++) {
+            String filename = "map_player_" + playerIndex + ".html";
+            String pathToFile = "src/gamefiles/"+filename;
+
+            FileWriter fileWriter = null;
+            BufferedWriter bufferedWriter = null;
+
+            try {
+                String content = "<html>Hello. \nThis is the html file for player " + playerIndex + "\nTesting if Java is cleaning files AGAIN</html>";
+
+                fileWriter = new FileWriter(pathToFile, true);
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(content);
+
+            } catch (IOException ex) {
+                ex.getMessage();
+            } finally {
+                if (bufferedWriter != null) {
+                    try {
+                        bufferedWriter.close();
+                    } catch (IOException ex) {
+                        ex.getMessage();
+                    }
+                }
+                if (fileWriter != null) {
+                    try {
+                        fileWriter.close();
+                    } catch (IOException ex) {
+                        ex.getMessage();
+                    }
                 }
             }
         }

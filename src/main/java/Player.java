@@ -42,9 +42,6 @@ public class Player extends Position{
         if(tileType == 'g'){
             return true;
         }
-        if(tileType == 't'){
-            return true;
-        }
-        return false;
+        return tileType == 't';
     }
 }
