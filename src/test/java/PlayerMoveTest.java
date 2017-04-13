@@ -10,7 +10,7 @@ import org.junit.Test;
 public class PlayerMoveTest extends Player{
 
     /**
-     *Testing move: up
+     *Testing moves: Up Down Left Right
      */
     @Before
     public void initialisePlayerPos() throws Exception{
