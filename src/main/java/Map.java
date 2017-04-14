@@ -17,7 +17,11 @@ public class Map{
         
     }
     
+    // TODO: set conditions and to return based on those.
     private boolean setMapSize(int x, int y){
+        sizeX = x;
+        sizeY = y;
+        
         return true;
     }
     
