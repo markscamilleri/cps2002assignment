@@ -6,4 +6,4 @@
 #Java Stuff
 **/*.class
 **/*.jar
-
+target/
