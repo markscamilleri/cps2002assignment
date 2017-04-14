@@ -13,8 +13,10 @@ public class Map{
      * @param x the x-axis size
      * @param y the y-axis size
      */
-    public Map(int x, int y){
-        
+    //TODO set condition if map size returns false, then object is not valid
+    public Map(int x, int y) {
+        setMapSize(x,y);
+        generate();
     }
     
     // TODO: set conditions and to return based on those.
