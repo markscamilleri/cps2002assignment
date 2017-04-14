@@ -2,9 +2,11 @@
  * @author denise
  * @version 12/04/2017.
  */
-public class Map extends Game{
+public class Map{
     private int sizeX;
     private int sizeY;
+    
+    private char map[][];
     
     /**
      *  Creates the map
@@ -22,7 +24,34 @@ public class Map extends Game{
     /**
      * Generates the map tiles.
      */
-    private static void generate(){}
+    private void generate(){
+        map = new char[sizeX][sizeY];
+    
+        boolean treasure = false;
+    
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                int random; // 0 = grass, 1 = water, 2 = treasure
+        
+                // If treasure was already generated, then it is not
+                // generated again
+                if (!treasure) {
+                    random = (int) (Math.random() * 3);
+                } else {
+                    random = (int) (Math.random() * 2);
+                }
+        
+                if (random == 0) {
+                    map[i][j] = 'g';
+                } else if (random == 1) {
+                    map[i][j] = 'w';
+                } else {
+                    map[i][j] = 't';
+                    treasure = true;
+                }
+            }
+        }
+    }
     
     /**
      * @return An array with the map size {x,y}
