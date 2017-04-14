@@ -58,7 +58,7 @@ public class Map{
     }
     
     /**
-     * @return An array with the map size {x,y}
+     * @return An array with the map sizes {x,y}
      */
     public int[] getMapSize(){
         return new int[]{sizeX, sizeY};
@@ -74,7 +74,17 @@ public class Map{
      *          the y parameter is out of bounds.
      */
     public char getTileType(int x, int y) throws IndexOutOfBoundsException {
-        return 'x';
+        if(x >= sizeX){
+            throw new IndexOutOfBoundsException("x-coordinate is larger than the map size");
+        } else if (y >= sizeY) {
+            throw new IndexOutOfBoundsException("y-coordinate is larger than the map size");
+        } else if (x < 0) {
+            throw new IndexOutOfBoundsException("x-coordinate is less than 0");
+        } else if (y < 0) {
+            throw new IndexOutOfBoundsException("y-coordinate is less than 0");
+        } else {
+            return map[x][y];
+        }
     }
 }
 
