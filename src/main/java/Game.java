@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * Created by denise on 12/04/2017.
  */
-public class Game extends Player{
+public class Game {
     private int numOfPlayers;
     public int turns;
     public Player players[];

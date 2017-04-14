@@ -5,7 +5,7 @@ import java.util.Random;
  * @version 12/04/2017
  */
 
-public class Player extends Position{
+public class Player{
 
     Position p;
     public void init(int mapSize){
