@@ -12,7 +12,7 @@ public class MapTest {
     
     @Before
     public void setUp() throws Exception {
-        map = new Map(8,8);
+        map = new Map(8, 8);
     }
     
     @Test
@@ -21,14 +21,35 @@ public class MapTest {
     }
     
     @Test
-    public void testGetMapSize(){
-        Assert.assertArrayEquals(new int[]{8,8}, map.getMapSize());
+    public void testGetMapSize() {
+        int[] size = map.getMapSize();
+        
+        Assert.assertTrue(size[0] == 8 && size[1] == 8);
     }
     
     @Test
-    public void testGetTileTypeCorrect(){
-        char type = map.getTileType(4,4);
+    public void testGetTileTypeCorrect() {
+        char type = map.getTileType(4, 4);
         
+        Assert.assertTrue("Tile is not a grass, water or treasure type", type == 'g' || type == 'w' || type == 't');
+    }
+    
+    @Test
+    public void testGetTileTypeXZero() {
+        char type = map.getTileType(0, 4);
+        Assert.assertTrue("Tile is not a grass, water or treasure type", type == 'g' || type == 'w' || type == 't');
+        
+    }
+    
+    @Test
+    public void testGetTileTypeYZero() {
+        char type = map.getTileType(4, 0);
+        Assert.assertTrue("Tile is not a grass, water or treasure type", type == 'g' || type == 'w' || type == 't');
+    }
+    
+    @Test
+    public void testGetTileTypeXYZero() {
+        char type = map.getTileType(0, 0);
         Assert.assertTrue("Tile is not a grass, water or treasure type", type == 'g' || type == 'w' || type == 't');
     }
     
@@ -43,25 +64,9 @@ public class MapTest {
     }
     
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testGetTileTypeXYNegative() {
+    public void testGetTileXYNegative() {
         map.getTileType(-1, -1);
     }
-    
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testGetTileTypeXZero() {
-        map.getTileType(0, 4);
-    }
-    
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testGetTileTypeYZero() {
-        map.getTileType(4, 0);
-    }
-    
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testGetTileTypeXYZero() {
-        map.getTileType(0, 0);
-    }
-    
     
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetTileTypeXTooBig() {
