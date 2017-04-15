@@ -6,72 +6,99 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import sun.management.counter.perf.PerfLongArrayCounter;
 
-public class PlayerMoveTest extends Player{
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
+public class PlayerMoveTest{
+    private Player player;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     /**
      *Testing moves: Up Down Left Right
      */
     @Before
     public void initialisePlayerPos() throws Exception{
-        init(5);
-        Assert.assertNotNull(p.x);
-        Assert.assertNotNull(p.y);
+        System.setOut(new PrintStream(outContent));
+        player = new Player();
+        player.init(5);
+        Assert.assertNotNull(player.p.x);
+        Assert.assertNotNull(player.p.y);
     }
+
 
     @Test
     public void testPlayerMove_u() throws Exception{
         //up entering 'u';
-        move('u');
-        Assert.assertEquals(p.x, p.x++);
+        player.move('u');
+        Assert.assertEquals(player.p.x, player.p.x++);
+        Assert.assertEquals("Moved UP", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_U() throws Exception{
         //up entering 'U'
-        move('U');
-        Assert.assertEquals(p.y, p.y++);
+        player.move('U');
+        Assert.assertEquals(player.p.y, player.p.y++);
+        Assert.assertEquals("Moved UP", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_d() throws Exception{
         //down entering 'd'
-        move('d');
-        Assert.assertEquals(p.y, p.y--);
+        player.move('d');
+        Assert.assertEquals(player.p.y, player.p.y--);
+        Assert.assertEquals("Moved DOWN", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_D() throws Exception{
         //down entering 'D'
-        move('D');
-        Assert.assertEquals(p.y, p.y--);
+        player.move('D');
+        Assert.assertEquals(player.p.y, player.p.y--);
+        Assert.assertEquals("Moved DOWN", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_l() throws Exception{
         //left entering 'l'
-        move('l');
-        Assert.assertEquals(p.x, p.x--);
+        player.move('l');
+        Assert.assertEquals(player.p.x, player.p.x--);
+        Assert.assertEquals("Moved LEFT", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_L() throws Exception{
         //left entering 'L'
-        move('L');
-        Assert.assertEquals(p.x, p.x--);
+        player.move('L');
+        Assert.assertEquals(player.p.x, player.p.x--);
+        Assert.assertEquals("Moved LEFT", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_r() throws Exception{
         //right entering 'r'
-        move('r');
-        Assert.assertEquals(p.x, p.x++);
+        player.move('r');
+        Assert.assertEquals(player.p.x, player.p.x++);
+        Assert.assertEquals("Moved RIGHT", outContent.toString());
     }
 
     @Test
     public void testPlayerMove_R() throws Exception{
         //right entering 'R'
-        move('R');
-        Assert.assertEquals(p.x, p.x++);
+        player.move('R');
+        Assert.assertEquals(player.p.x, player.p.x++);
+        Assert.assertEquals("Moved RIGHT", outContent.toString());
+    }
+
+    @Test
+    public void testInvalidMove() throws Exception{
+        player.move('w');
+        Assert.assertEquals("invalid move", outContent.toString());
+    }
+
+    @After
+    public void cleanStream() throws Exception{
+        System.setOut(null);
     }
 }

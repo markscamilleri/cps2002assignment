@@ -31,21 +31,35 @@ public class Player{
      */
     public void move(char direction){
         toLowerCase(direction);
-        switch(direction){
-            case 'u':
-                p.y++;
-                break;
-            case 'd':
-                p.y--;
-                break;
-            case 'l':
-                p.x--;
-                break;
-            case 'r':
-                p.x++;
-                break;
-            default:
-                break;
+        boolean validMove = true;
+        while(validMove) {
+            switch (direction) {
+                case 'u': {
+                    p.y++;
+                    System.out.println("Moved UP");
+                    break;
+                }
+                case 'd': {
+                    p.y--;
+                    System.out.println("Moved DOWN");
+                    break;
+                }
+                case 'l': {
+                    p.x--;
+                    System.out.println("Moved LEFT");
+                    break;
+                }
+                case 'r': {
+                    p.x++;
+                    System.out.println("Moved RIGHT");
+                    break;
+                }
+                default: {
+                    validMove = false;
+                    System.out.println("Invalid move");
+                    break;
+                }
+            }
         }
     }
 

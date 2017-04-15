@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @version 13/04/2017.
  */
 
-public class Game extends Player{
+public class Game {
     public int numOfPlayers;
     public int turns;
     public int mapSize;
@@ -28,10 +28,7 @@ public class Game extends Player{
     public void generateHTMLFiles(){
         int playerIndex = 1;
 
-        /**
-         * Deleting all previously created game files
-         */
-
+        //Deleting all previously created game files
         File dir = new File("src/gamefiles");
         for (File file: dir.listFiles()) {
             if (!file.isDirectory()) {
@@ -39,10 +36,7 @@ public class Game extends Player{
             }
         }
 
-        /**
-         * Creating new game files according to the new game
-         */
-
+        //Creating new game files according to the new game
         for (int i=0; i<numOfPlayers; i++, playerIndex++) {
             String filename = "map_player_" + playerIndex + ".html";
             String pathToFile = "src/gamefiles/"+filename;
