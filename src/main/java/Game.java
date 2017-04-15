@@ -38,40 +38,28 @@ public class Game {
 
         //Creating new game files according to the new game
         for (int i=0; i<numOfPlayers; i++, playerIndex++) {
-            String filename = "map_player_" + playerIndex + ".html";
-            String pathToFile = "src/gamefiles/"+filename;
-
-            FileWriter fileWriter = null;
-            BufferedWriter bufferedWriter = null;
-
-            try {
-                String content = "<html>Hello. \nThis is the html file for player " + playerIndex + "\nTesting if Java is cleaning files AGAIN</html>";
-
-                fileWriter = new FileWriter(pathToFile, true);
-                bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(content);
-
-            } catch (IOException ex) {
-                ex.getMessage();
-            } finally {
-                if (bufferedWriter != null) {
-                    try {
-                        bufferedWriter.close();
-                    } catch (IOException ex) {
-                        ex.getMessage();
-                    }
-                }
-                if (fileWriter != null) {
-                    try {
-                        fileWriter.close();
-                    } catch (IOException ex) {
-                        ex.getMessage();
-                    }
-                }
-            }
+            generateHTMLFile(playerIndex);
         }
     }
+    
+    private void generateHTMLFile(int playerIndex) {
+        String filename = "map_player_" + playerIndex + ".html";
+        String pathToFile = "src/gamefiles/"+filename;
+        
+        // Try-with-resources is guranteed to close the resource
+        // even in case of failure
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathToFile, true))) { 
+            String content = "<html>Hello. \nThis is the html file for player " + playerIndex + "\nTesting if Java is cleaning files AGAIN</html>";
+            for (int i = 0; i < mapSize; i++) {
+                
+            }
+            bufferedWriter.write(content);
 
+        } catch (IOException ex) {
+            ex.getMessage();
+        }
+    }
+    
     public void main(String[] args){
         Scanner scan = new Scanner(System.in);
         Map map;
