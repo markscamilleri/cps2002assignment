@@ -11,34 +11,6 @@ public class Game extends Player{
     public int mapSize;
     public Player players[];
 
-
-    /**
-     * Starts the game
-     * FUNCTIONS: Asks for number of players and map size
-     */
-
-    public void startGame() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter the number of players:");
-        numOfPlayers = scan.nextInt();
-
-        if (setNumPlayers(numOfPlayers)) {
-            players = new Player[numOfPlayers];
-
-            System.out.println("Enter map size: ");
-            mapSize = scan.nextInt();
-
-            for(int i=0; i<numOfPlayers; i++){
-                Player p = new Player();
-                players[i] = p;
-            }
-            generateHTMLFiles();
-        } else {
-            System.out.println("Enter the number of players:");
-            numOfPlayers = scan.nextInt();
-        }
-    }
-
     /**
      * Checks that the number of players is valid
      * @param n the number of players
@@ -102,6 +74,32 @@ public class Game extends Player{
                     }
                 }
             }
+        }
+    }
+
+    public void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        Map map;
+
+        //Ask for Number of players
+        System.out.println("Enter the number of players:");
+        numOfPlayers = scan.nextInt();
+        if (setNumPlayers(numOfPlayers)) {
+            players = new Player[numOfPlayers];
+
+            System.out.println("Enter map size: ");
+            mapSize = scan.nextInt();
+            map = new Map();
+            map.setMapSize(mapSize, mapSize);
+
+            for(int i=0; i<numOfPlayers; i++){
+                Player p = new Player();
+                players[i] = p;
+            }
+            generateHTMLFiles();
+        } else {
+            System.out.println("Enter the number of players:");
+            numOfPlayers = scan.nextInt();
         }
     }
 }
