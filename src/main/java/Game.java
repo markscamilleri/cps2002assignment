@@ -8,9 +8,6 @@ import java.util.Scanner;
 
 public class Game extends Player{
     public int numOfPlayers;
-
-public class Game {
-    private int numOfPlayers;
     public int turns;
     public int mapSize;
     public Player players[];
@@ -93,8 +90,7 @@ public class Game {
 
             System.out.println("Enter map size: ");
             mapSize = scan.nextInt();
-            map = new Map();
-            map.setMapSize(mapSize, mapSize);
+            map = new Map(mapSize, mapSize);
 
             for(int i=0; i<numOfPlayers; i++){
                 Player p = new Player();
