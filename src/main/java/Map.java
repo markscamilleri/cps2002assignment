@@ -12,9 +12,11 @@ public class Map{
      *  Creates the map
      * @param x the x-axis size
      * @param y the y-axis size
+     * @throws IllegalArgumentException if the map size is too big
+     *          (x or y > 50) or too small (x or y < 5)
      */
     //TODO set condition if map size returns false, then object is not valid
-    public Map(int x, int y) {
+    public Map(int x, int y) throws IllegalArgumentException {
         setMapSize(x,y);
         generate();
     }
