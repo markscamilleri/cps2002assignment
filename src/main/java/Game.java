@@ -11,11 +11,14 @@ public class Game extends Player{
     public int mapSize;
     public Player players[];
 
-    public void startGame() {
-        ByteArrayInputStream in = new ByteArrayInputStream(Integer.toString(numOfPlayers).getBytes());
-        System.setIn(in);
 
-        Scanner scan = new Scanner(in);
+    /**
+     * Starts the game
+     * FUNCTIONS: Asks for number of players and map size
+     */
+
+    public void startGame() {
+        Scanner scan = new Scanner(System.in);
         System.out.println("Enter the number of players:");
         numOfPlayers = scan.nextInt();
 
@@ -36,10 +39,19 @@ public class Game extends Player{
         }
     }
 
+    /**
+     * Checks that the number of players is valid
+     * @param n the number of players
+     * @return true if the number of players is between 2 and 8, false otherwise
+     */
+
     public boolean setNumPlayers(int n){
         return !(n < 2 || n > 8);
     }
 
+    /**
+     * Generates Game HTML Files for each player
+     */
     public void generateHTMLFiles(){
         int playerIndex = 1;
 
