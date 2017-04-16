@@ -84,33 +84,39 @@ public class MapTest {
         Assert.assertTrue("Tile is not a grass, water or treasure type", type == 'g' || type == 'w' || type == 't');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileTypeXNegative() {
-        map.getTileType(-1, 4);
+        char type = map.getTileType(-1, 4);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileTypeYNegative() {
-        map.getTileType(4, -1);
+        char type = map.getTileType(4, -1);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileXYNegative() {
-        map.getTileType(-1, -1);
+        char type = map.getTileType(-1, -1);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileTypeXTooBig() {
-        map.getTileType(51, 4);
+        char type = map.getTileType(51, 4);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileTypeYTooBig() {
-        map.getTileType(4, 51);
+        char type = map.getTileType(4, 51);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTileTypeXYTooBig() {
-        map.getTileType(51, 51);
+        char type = map.getTileType(51, 51);
+        Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
 }

@@ -11,12 +11,12 @@ import java.util.Scanner;
 
 public class Game {
     public static int numOfPlayers;
-    public static int turns;
     public static int mapSize;
     public static Player playerList[];
-    private static Map map;
+    static Map map;
     private static Scanner scan = new Scanner(System.in);
-
+    
+    //Ask for number of players
     private static void getNumberOfPlayers(){
         do {
             System.out.println("Enter the number of players:");
@@ -37,27 +37,36 @@ public class Game {
     }
 
     private static void getLandingTile(Player player, Map map){
-        if (map.getTileType(player.position.x, player.position.y) == 't') {
-            System.out.println("Congratulations, you have found the treasure");
-            //break;
+        String action = "stepped";
+        if (!player.uncoveredTiles[player.position.x][player.position.y]) {
+          player.uncoveredTiles[player.position.x][player.position.y] = true;
+          action = "found";
         }
-
-        if (map.getTileType(player.position.x, player.position.y) == 'w') {
-            System.out.println("OOPS, you got a water tile. You died! \nYou have respawned in your start position");
-            player.position = player.getStartPosition();
-            //break;
+      
+        char type = map.getTileType(player.position.x, player.position.y);
+        if (type == 't') {
+          System.out.println("Congratulations, you have found the treasure");
+        } else if (type == 'w') {
+          System.out.println("OOPS, you " + action + " on a water tile. You died!");
+          System.out.println("You have respawned in your start position");
+          player.position = player.getStartPosition();
+        } else if (type == 'g') {
+            System.out.println("You " + action + " a Grass tile! Wait for your turn.");
         }
-
-        if (map.getTileType(player.position.x, player.position.y) == 'g') {
-            System.out.println("You got a Grass tile! Wait for your turn.");
-           // break;
-        }
+      
+        return type;
     }
 
     protected static void getNextMove(Player player){
         char move;
         do {
-            System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
+            System.out.println("Player " + (i + 1) + "'s turn.");
+            System.out.println("Enter your move.");
+            System.out.println("U to move UP");
+            System.out.println("D to move DOWN");
+            System.out.println("L to move LEFT");
+            System.out.println("R to move Right");            String input = scan.next();
+            
             String input = scan.next();
             if(!input.trim().isEmpty()) {
                 move = Character.toLowerCase(input.charAt(0));
@@ -73,7 +82,7 @@ public class Game {
     public static void main(String[] args) {
         //Scanner scan = new Scanner(System.in);
         scan.useDelimiter("\n");
-        
+
         //char moveInput = ' ';
         int loopIndex = 0;
         
@@ -98,12 +107,16 @@ public class Game {
 //        }
         createPlayerList();
 //
+      
+      boolean gameOver = false;
+      while(!gameOver){
         //generate HTML Game Files for each Player
         generateHTMLFiles();
         
         // Loop till winning
-        for (Player player : playerList) {
-            Position previous = player.position;
+        for (int i = 0; i < playerList.length; i++) {
+          Player player = playerList[i];
+          Position previous = player.position;
 
     
             // Prompt user for input and check it.
@@ -128,17 +141,9 @@ public class Game {
                 player.position = previous;
             }
             
-            while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
-                player.uncoveredTiles[player.position.x][player.position.y] = 1;
-                getLandingTile(player, map);
-
-                loopIndex++;
-
-                if (loopIndex == playerList.length) {
-                    loopIndex = 0;
-                    player = playerList[0];
-                    turns++;
-                }
+           if(getLandingTile(player, map) == 'g'){
+              gameOver = true;
+              System.out.println("Player " + (i + 1) + " wins!"); 
             }
         }
     }
@@ -184,19 +189,19 @@ public class Game {
             bufferedWriter.write("<html>\n<body>\n");
             bufferedWriter.write("<h1>Player Map for player " + playerIndex + "</h1>\n<div>\n<table>");
             
-            for (int i = 0; i < mapSize; i++) {
+            for (int y = mapSize - 1; y >= 0; y--) {
                 bufferedWriter.write("<tr>");
-                for (int j = 0; j < mapSize; j++) {
+                for (int x = 0; x < mapSize; x++) {
                     String colour;
-                    if (playerList[playerIndex - 1].uncoveredTiles[i][j] == 0) {
-                        colour = getColour(map.getTileType(i, j));
+                    if (playerList[playerIndex - 1].uncoveredTiles[x][y]) {
+                        colour = getColour(map.getTileType(x, y));
                     } else {
                         colour = "grey";
                     }
                     
                     String style = "style=\"width: 2em; height: 2em; text-align: center; font-size: 2em; background-color: " + colour + ";\"";
                     bufferedWriter.write("<td " + style + ">");
-                    if (playerList[playerIndex - 1].position.y == i && playerList[playerIndex - 1].position.x == j)
+                    if (playerList[playerIndex - 1].position.y == y && playerList[playerIndex - 1].position.x == x)
                         bufferedWriter.write("&bull;");
                     bufferedWriter.write("</td>");
                 }
@@ -220,6 +225,7 @@ public class Game {
     
     /**
      * Returns the HTML Colour value as a string
+     *
      * @param tileType The type of tile uncovered
      * @return green, blue, gold or (but should never return) grey.
      */
