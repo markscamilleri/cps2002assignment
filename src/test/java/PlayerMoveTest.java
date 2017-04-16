@@ -23,6 +23,8 @@ public class PlayerMoveTest{
     public void initialisePlayerPos() throws Exception{
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+        map = new Map(MAP_SIZE, MAP_SIZE);
+        Game.map = map;
         player = new Player(MAP_SIZE);
     }
     
@@ -75,11 +77,10 @@ public class PlayerMoveTest{
         Assert.assertTrue(player.setPosition(p, map));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testSetPositionFalse() throws Exception{
         Position p = new Position(-1,2);
         Assert.assertFalse(player.setPosition(p, map));
-        Assert.assertEquals("x-coordinate is less than 0", outContent.toString());
     }
     
     @Test
