@@ -20,6 +20,37 @@ public class MapTest {
         Assert.assertNotNull(map);
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapXTooLarge() throws Exception {
+        map = new Map(51, 8);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapXTooSmall() throws Exception {
+        map = new Map(4, 8);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapYTooLarge() throws Exception {
+        map = new Map(8, 51);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapYTooSmall() throws Exception {
+        map = new Map(8, 4);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapXYTooLarge() throws Exception {
+        map = new Map(51, 51);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMapXYTooSmall() throws Exception {
+        map = new Map(4, 4);
+    }
+    
+    
     @Test
     public void testGetMapSize() {
         int[] size = map.getMapSize();
