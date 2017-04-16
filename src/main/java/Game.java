@@ -53,9 +53,12 @@ public class Game {
             
             Position previous = player.position;
             player.move(moveInput);
+            System.out.print("\n");
             Position newPos = player.position;
             if (player.setPosition(newPos, map)) {
                 player.position = newPos;
+            } else {
+                player.position = previous;
             }
             
             while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
@@ -64,18 +67,18 @@ public class Game {
                     System.out.println("Congratulations, you have found the treasure");
                     break;
                 }
-                
+
                 if (map.getTileType(player.position.x, player.position.y) == 'w') {
                     System.out.println("OOPS, you got a water tile. You loose!");
                     break;
                 }
-                
+
                 if (map.getTileType(player.position.x, player.position.y) == 'g') {
                     System.out.println("You got a Grass tile! Wait for your turn.");
                     break;
                 }
                 loopIndex++;
-                
+
                 if (loopIndex == playerList.length) {
                     loopIndex = 0;
                     player = playerList[0];

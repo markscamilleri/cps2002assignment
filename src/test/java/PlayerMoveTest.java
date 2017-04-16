@@ -14,6 +14,7 @@ public class PlayerMoveTest{
     private Player player;
     private Map map;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
     /**
      *Testing moves: Up Down Left Right
      */
@@ -34,13 +35,6 @@ public class PlayerMoveTest{
         Assert.assertEquals("Moved UP", outContent.toString());
     }
 
-    @Test
-    public void testPlayerMove_U() throws Exception{
-        //up entering 'U'
-        player.move('U');
-        Assert.assertEquals(player.position.y, player.position.y++);
-        Assert.assertEquals("Moved UP", outContent.toString());
-    }
 
     @Test
     public void testPlayerMove_d() throws Exception{
@@ -50,26 +44,11 @@ public class PlayerMoveTest{
         Assert.assertEquals("Moved DOWN", outContent.toString());
     }
 
-    @Test
-    public void testPlayerMove_D() throws Exception{
-        //down entering 'D'
-        player.move('D');
-        Assert.assertEquals(player.position.y, player.position.y--);
-        Assert.assertEquals("Moved DOWN", outContent.toString());
-    }
 
     @Test
     public void testPlayerMove_l() throws Exception{
         //left entering 'l'
         player.move('l');
-        Assert.assertEquals(player.position.x, player.position.x--);
-        Assert.assertEquals("Moved LEFT", outContent.toString());
-    }
-
-    @Test
-    public void testPlayerMove_L() throws Exception{
-        //left entering 'L'
-        player.move('L');
         Assert.assertEquals(player.position.x, player.position.x--);
         Assert.assertEquals("Moved LEFT", outContent.toString());
     }
@@ -83,17 +62,9 @@ public class PlayerMoveTest{
     }
 
     @Test
-    public void testPlayerMove_R() throws Exception{
-        //right entering 'R'
-        player.move('R');
-        Assert.assertEquals(player.position.x, player.position.x++);
-        Assert.assertEquals("Moved RIGHT", outContent.toString());
-    }
-
-    @Test
     public void testInvalidMove() throws Exception{
         player.move('w');
-        Assert.assertEquals("invalid move", outContent.toString());
+        Assert.assertEquals("Invalid move", outContent.toString());
     }
 
     @Before
