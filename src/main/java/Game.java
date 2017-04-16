@@ -18,6 +18,8 @@ public class Game {
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        scan.useDelimiter("\n");
+        
         char moveInput;
         int loopIndex = 0;
         
@@ -42,14 +44,18 @@ public class Game {
         //generate HTML Game Files for each Player
         generateHTMLFiles();
         
+        // Loop till winning
         for (Player player : playerList) {
+            Position previous = player.position;
+    
             // Prompt user for input and check it.
             do {
                 System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
                 moveInput = scan.next().charAt(0);
-                Character.toLowerCase(moveInput);
+                moveInput = Character.toLowerCase(moveInput);
+                player.move(moveInput);
             }
-            while (moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r');
+            while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
             
             Position previous = player.position;
             player.move(moveInput);
