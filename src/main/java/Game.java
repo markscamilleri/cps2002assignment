@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static java.lang.Character.*;
+
 /**
  * @author denise
  * @version 13/04/2017.
@@ -38,9 +40,9 @@ public class Game {
     }
     
     /**
-     * Checks that the number of players is valid
-     * @param n the number of players
-     * @return true if the number of players is between 2 and 8, false otherwise
+     * Checks that the number of playerList is valid
+     * @param n the number of playerList
+     * @return true if the number of playerList is between 2 and 8, false otherwise
      */
     public static boolean setNumPlayers(int n) {
         return !(n < 2 || n > 8);
