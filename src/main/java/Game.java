@@ -13,7 +13,7 @@ public class Game {
     public static int numOfPlayers;
     public static int mapSize;
     public static Player playerList[];
-    private static Map map;
+    static Map map;
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -137,19 +137,19 @@ public class Game {
             bufferedWriter.write("<html>\n<body>\n");
             bufferedWriter.write("<h1>Player Map for player " + playerIndex + "</h1>\n<div>\n<table>");
             
-            for (int i = 0; i < mapSize; i++) {
+            for (int y = mapSize - 1; y >= 0; y--) {
                 bufferedWriter.write("<tr>");
-                for (int j = 0; j < mapSize; j++) {
+                for (int x = 0; x < mapSize; x++) {
                     String colour;
-                    if (playerList[playerIndex - 1].uncoveredTiles[i][j]) {
-                        colour = getColour(map.getTileType(i, j));
+                    if (playerList[playerIndex - 1].uncoveredTiles[x][y]) {
+                        colour = getColour(map.getTileType(x, y));
                     } else {
                         colour = "grey";
                     }
                     
                     String style = "style=\"width: 2em; height: 2em; text-align: center; font-size: 2em; background-color: " + colour + ";\"";
                     bufferedWriter.write("<td " + style + ">");
-                    if (playerList[playerIndex - 1].position.y == i && playerList[playerIndex - 1].position.x == j)
+                    if (playerList[playerIndex - 1].position.y == y && playerList[playerIndex - 1].position.x == x)
                         bufferedWriter.write("&bull;");
                     bufferedWriter.write("</td>");
                 }

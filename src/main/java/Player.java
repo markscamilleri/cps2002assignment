@@ -18,13 +18,15 @@ public class Player {
      */
     public Player(int mapSize) {
         Random random = new Random();
-        position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        do {
+            position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        }while(Game.map.getTileType(position.x, position.y) != 'g');
         startPosition = new Position(position.x, position.y);
         
         uncoveredTiles = new boolean[mapSize][mapSize];
-        for (int i = 0; i < uncoveredTiles.length; i++) {
-            for (int j = 0; j < uncoveredTiles[i].length; j++) {
-                uncoveredTiles[i][j] = false;
+        for (int y = 0; y < uncoveredTiles.length; y++) {
+            for (int x = 0; x < uncoveredTiles[y].length; x++) {
+                uncoveredTiles[x][y] = (y == startPosition.y && x == startPosition.x);
             }
         }
     }
