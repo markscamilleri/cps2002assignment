@@ -30,25 +30,23 @@ public class PlayerMoveTest{
         //up entering 'u';
         player.move('u');
         Assert.assertEquals(player.position.x, player.position.x++);
-        Assert.assertEquals("Moved UP\n", outContent.toString());
+        Assert.assertEquals("Moved UP", outContent.toString());
     }
-
 
     @Test
     public void testPlayerMove_d() throws Exception{
         //down entering 'd'
         player.move('d');
         Assert.assertEquals(player.position.y, player.position.y--);
-        Assert.assertEquals("Moved DOWN\n", outContent.toString());
+        Assert.assertEquals("Moved DOWN", outContent.toString());
     }
-
 
     @Test
     public void testPlayerMove_l() throws Exception{
         //left entering 'l'
         player.move('l');
         Assert.assertEquals(player.position.x, player.position.x--);
-        Assert.assertEquals("Moved LEFT\n", outContent.toString());
+        Assert.assertEquals("Moved LEFT", outContent.toString());
     }
 
     @Test
@@ -56,13 +54,13 @@ public class PlayerMoveTest{
         //right entering 'r'
         player.move('r');
         Assert.assertEquals(player.position.x, player.position.x++);
-        Assert.assertEquals("Moved RIGHT\n", outContent.toString());
+        Assert.assertEquals("Moved RIGHT", outContent.toString());
     }
 
     @Test
     public void testInvalidMove() throws Exception{
         player.move('w');
-        Assert.assertEquals("Invalid move\n", outContent.toString());
+        Assert.assertEquals("Invalid move", outContent.toString());
     }
 
     @Before
