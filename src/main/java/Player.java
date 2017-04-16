@@ -10,6 +10,7 @@ import static java.lang.Character.toLowerCase;
 public class Player{
 
     public Position position;
+    public int[][] uncoveredTiles;
 
     /**
      * Initialises the player and assigns a random position
@@ -18,6 +19,7 @@ public class Player{
     public void init(int mapSize){
         Random random = new Random();
         position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        uncoveredTiles = new int[mapSize][mapSize];
     }
 
     /**

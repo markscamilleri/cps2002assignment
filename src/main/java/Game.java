@@ -114,8 +114,8 @@ public class Game {
                         player.position = newPos;
                     }
 
-                    while(map.getTileType(player.position.x, player.position.y) == 'u') {
-
+                    while(player.uncoveredTiles[player.position.x][player.position.y] == 0) {
+                        player.uncoveredTiles[player.position.x][player.position.y] = 1;
                         if (map.getTileType(player.position.x, player.position.y) == 't') {
                             System.out.println("Congratulations, you have found the treasure");
                             break;
@@ -132,6 +132,7 @@ public class Game {
                         }
                     }
                 }
+
                 loopIndex++;
 
                 if(loopIndex == playerList.length){
