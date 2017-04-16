@@ -18,27 +18,77 @@ public class Game {
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        char moveInput;
+        int loopIndex = 0;
         
-        //Ask for Number of playerList
+        //Ask for number of players
         do {
             System.out.println("Enter the number of players:");
             numOfPlayers = scan.nextInt();
         } while (!setNumPlayers(numOfPlayers));
         playerList = new Player[numOfPlayers];
         
+        // Ask user for map size
         System.out.println("Enter map size: ");
         mapSize = scan.nextInt();
         map = new Map(mapSize, mapSize);
         
+        //create Player List
         for (int i = 0; i < numOfPlayers; i++) {
             Player p = new Player(mapSize);
             playerList[i] = p;
         }
+        
+        //generate HTML Game Files for each Player
         generateHTMLFiles();
+        
+        for (Player player : playerList) {
+            // Prompt user for input and check it.
+            do {
+                System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
+                moveInput = scan.next().charAt(0);
+                Character.toLowerCase(moveInput);
+            }
+            while (moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r');
+            
+            Position previous = player.position;
+            player.move(moveInput);
+            Position newPos = player.position;
+            if (player.setPosition(newPos, map)) {
+                player.position = newPos;
+            }
+            
+            while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
+                player.uncoveredTiles[player.position.x][player.position.y] = 1;
+                if (map.getTileType(player.position.x, player.position.y) == 't') {
+                    System.out.println("Congratulations, you have found the treasure");
+                    break;
+                }
+                
+                if (map.getTileType(player.position.x, player.position.y) == 'w') {
+                    System.out.println("OOPS, you got a water tile. You loose!");
+                    break;
+                }
+                
+                if (map.getTileType(player.position.x, player.position.y) == 'g') {
+                    System.out.println("You got a Grass tile! Wait for your turn.");
+                    break;
+                }
+                loopIndex++;
+                
+                if (loopIndex == playerList.length) {
+                    loopIndex = 0;
+                    player = playerList[0];
+                    turns++;
+                }
+            }
+        }
     }
+    
     
     /**
      * Checks that the number of playerList is valid
+     *
      * @param n the number of playerList
      * @return true if the number of playerList is between 2 and 8, false otherwise
      */
@@ -80,20 +130,20 @@ public class Game {
                 bufferedWriter.write("<tr>");
                 for (int j = 0; j < mapSize; j++) {
                     String colour;
-                    if(playerList[playerIndex-1].uncoveredTiles[i][j] == 0){
-                        switch(map.getTileType(i,j)){
+                    if (playerList[playerIndex - 1].uncoveredTiles[i][j] == 0) {
+                        switch (map.getTileType(i, j)) {
                             case 'g':
-                                    colour = "green";
-                                    break;
+                                colour = "green";
+                                break;
                             case 'w':
-                                    colour = "blue";
-                                    break;
+                                colour = "blue";
+                                break;
                             case 't':
-                                    colour = "gold";
-                                    break;
+                                colour = "gold";
+                                break;
                             default: //This should never be used.
-                                    colour = "grey";
-                                    break;
+                                colour = "grey";
+                                break;
                         }
                     } else {
                         colour = "grey";
@@ -101,7 +151,7 @@ public class Game {
                     
                     String style = "style=\"width: 2em; height: 2em; text-align: center; font-size: 2em; background-color: " + colour + ";\"";
                     bufferedWriter.write("<td " + style + ">");
-                    if (playerList[playerIndex-1].position.y == i && playerList[playerIndex-1].position.x == j)
+                    if (playerList[playerIndex - 1].position.y == i && playerList[playerIndex - 1].position.x == j)
                         bufferedWriter.write("&bull;");
                     bufferedWriter.write("</td>");
                 }
