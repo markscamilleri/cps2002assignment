@@ -41,58 +41,69 @@ public class Game {
             playerList[i] = p;
         }
         
-        //generate HTML Game Files for each Player
-        generateHTMLFiles();
+        boolean gameOver = false;
+        while(!gameOver) {
+            //generate HTML Game Files for each Player
+            generateHTMLFiles();
+            
+            for (int i = 0; i < playerList.length; i++) {
+                Player player = playerList[i];
+                Position previous = player.position;
         
-        // Loop till winning
-        for (Player player : playerList) {
-            Position previous = player.position;
-    
-            // Prompt user for input and check it.
-            do {
-                System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
-                String input = scan.next();
-                if(!input.trim().isEmpty()) {
-                    moveInput = Character.toLowerCase(input.charAt(0));
+                // Prompt user for input and check it.
+                do {
+                    System.out.println("Player "+ (i+1)+"'s turn.");
+                    System.out.println("Enter your move.");
+                    System.out.println("U to move UP");
+                    System.out.println("D to move DOWN");
+                    System.out.println("L to move LEFT");
+                    System.out.println("R to move Right");
+                    
+                    String input = scan.next();
+                    if (!input.trim().isEmpty()) {
+                        moveInput = Character.toLowerCase(input.charAt(0));
+                    } else {
+                        moveInput = ' '; // Makes the input loop
+                    }
+                    player.move(moveInput);
+                    System.out.print("\n");
+                }
+                while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
+        
+                Position newPos = player.position;
+                if (player.setPosition(newPos, map)) {
+                    player.position = newPos;
                 } else {
-                    moveInput = ' '; // Makes the input loop
+                    player.position = previous;
                 }
-                player.move(moveInput);
-                System.out.print("\n");
-            }
-            while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
+        
+                while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
+                    player.uncoveredTiles[player.position.x][player.position.y] = 1;
+                    if (map.getTileType(player.position.x, player.position.y) == 't') {
+                        System.out.println("Congratulations, you have found the treasure");
+                        gameOver = true;
+                        System.out.println("Player " + (i+1) + " wins!");
+                        break;
+                    }
             
-            Position newPos = player.position;
-            if (player.setPosition(newPos, map)) {
-                player.position = newPos;
-            } else {
-                player.position = previous;
-            }
+                    if (map.getTileType(player.position.x, player.position.y) == 'w') {
+                        System.out.println("OOPS, you got a water tile. You died!");
+                        System.out.println("You have respawned in your start position");
+                        player.position = player.getStartPosition();
+                        break;
+                    }
             
-            while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
-                player.uncoveredTiles[player.position.x][player.position.y] = 1;
-                if (map.getTileType(player.position.x, player.position.y) == 't') {
-                    System.out.println("Congratulations, you have found the treasure");
-                    break;
-                }
-
-                if (map.getTileType(player.position.x, player.position.y) == 'w') {
-                    System.out.println("OOPS, you got a water tile. You died!");
-                    System.out.println("You have respawned in your start position");
-                    player.position = player.getStartPosition();
-                    break;
-                }
-
-                if (map.getTileType(player.position.x, player.position.y) == 'g') {
-                    System.out.println("You got a Grass tile! Wait for your turn.");
-                    break;
-                }
-                loopIndex++;
-
-                if (loopIndex == playerList.length) {
-                    loopIndex = 0;
-                    player = playerList[0];
-                    turns++;
+                    if (map.getTileType(player.position.x, player.position.y) == 'g') {
+                        System.out.println("You got a Grass tile! Wait for your turn.");
+                        break;
+                    }
+                    loopIndex++;
+            
+                    if (loopIndex == playerList.length) {
+                        loopIndex = 0;
+                        player = playerList[0];
+                        turns++;
+                    }
                 }
             }
         }
