@@ -13,6 +13,7 @@ public class GameTest {
         Game.numOfPlayers = 5;
         Game.playerList = new Player[Game.numOfPlayers];
         Game.mapSize = 8;
+        Game.map = new Map(Game.mapSize, Game.mapSize);
         for (int i = 0; i < Game.numOfPlayers; i++) {
             Game.playerList[i] = new Player(Game.mapSize);
         }
