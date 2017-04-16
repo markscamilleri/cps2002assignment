@@ -14,6 +14,7 @@ public class PlayerMoveTest{
     private Player player;
     private Map map;
     private ByteArrayOutputStream outContent;
+    private final int MAP_SIZE = 5;
     
     /**
      *Testing moves: Up Down Left Right
@@ -22,7 +23,7 @@ public class PlayerMoveTest{
     public void initialisePlayerPos() throws Exception{
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        player = new Player(5);
+        player = new Player(MAP_SIZE);
     }
     
     @Test
@@ -80,7 +81,21 @@ public class PlayerMoveTest{
         Assert.assertFalse(player.setPosition(p, map));
         Assert.assertEquals("x-coordinate is less than 0", outContent.toString());
     }
-
+    
+    @Test
+    public void testGetStartXPosition() throws Exception{
+        Position pos = player.getStartPosition();
+        
+        Assert.assertTrue(pos.x >= 0 && pos.x < MAP_SIZE);
+    }
+    
+    @Test
+    public void testGetStartYosition() throws Exception{
+        Position pos = player.getStartPosition();
+        
+        Assert.assertTrue(pos.y >= 0 && pos.y < MAP_SIZE);
+    }
+    
     @After
     public void cleanStream() throws Exception{
         System.setOut(null);

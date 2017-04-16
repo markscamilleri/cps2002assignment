@@ -77,7 +77,9 @@ public class Game {
                 }
 
                 if (map.getTileType(player.position.x, player.position.y) == 'w') {
-                    System.out.println("OOPS, you got a water tile. You loose!");
+                    System.out.println("OOPS, you got a water tile. You died!");
+                    System.out.println("You have respawned in your start position");
+                    player.position = player.getStartPosition();
                     break;
                 }
 

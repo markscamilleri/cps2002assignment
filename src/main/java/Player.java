@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Player {
     
+    private Position startPosition;
     public Position position;
     public int[][] uncoveredTiles;
     
@@ -18,6 +19,8 @@ public class Player {
     public Player(int mapSize) {
         Random random = new Random();
         position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        startPosition = new Position(position.x, position.y);
+        
         uncoveredTiles = new int[mapSize][mapSize];
         for (int i = 0; i < uncoveredTiles.length; i++) {
             for (int j = 0; j < uncoveredTiles[i].length; j++) {
@@ -77,5 +80,9 @@ public class Player {
             return true;
         }
         return false;
+    }
+    
+    public Position getStartPosition(){
+        return new Position(startPosition.x, startPosition.y);
     }
 }
