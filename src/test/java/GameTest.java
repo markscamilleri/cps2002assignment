@@ -81,4 +81,5 @@ public class GameTest {
     public void testGetColourForUnknownOrInvalidTile() throws Exception {
         Assert.assertEquals("grey", Game.getColour(' '));
     }
+
 }
