@@ -4,8 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static java.lang.Character.*;
-
 /**
  * @author denise
  * @version 13/04/2017.
@@ -15,26 +13,26 @@ public class Game {
     public static int numOfPlayers;
     public static int turns;
     public static int mapSize;
-    public static Player players[];
+    public static Player playerList[];
+    private static Map map;
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        Map map;
         
-        //Ask for Number of players
+        //Ask for Number of playerList
         do {
             System.out.println("Enter the number of players:");
             numOfPlayers = scan.nextInt();
         } while (!setNumPlayers(numOfPlayers));
-        players = new Player[numOfPlayers];
+        playerList = new Player[numOfPlayers];
         
         System.out.println("Enter map size: ");
         mapSize = scan.nextInt();
         map = new Map(mapSize, mapSize);
         
         for (int i = 0; i < numOfPlayers; i++) {
-            Player p = new Player();
-            players[i] = p;
+            Player p = new Player(mapSize);
+            playerList[i] = p;
         }
         generateHTMLFiles();
     }
@@ -81,12 +79,29 @@ public class Game {
             for (int i = 0; i < mapSize; i++) {
                 bufferedWriter.write("<tr>");
                 for (int j = 0; j < mapSize; j++) {
-                    String colour = "grey";
-                    //TODO if tile is known, change colour
+                    String colour;
+                    if(playerList[playerIndex-1].uncoveredTiles[i][j] == 0){
+                        switch(map.getTileType(i,j)){
+                            case 'g':
+                                    colour = "green";
+                                    break;
+                            case 'w':
+                                    colour = "blue";
+                                    break;
+                            case 't':
+                                    colour = "gold";
+                                    break;
+                            default: //This should never be used.
+                                    colour = "grey";
+                                    break;
+                        }
+                    } else {
+                        colour = "grey";
+                    }
                     
                     String style = "style=\"width: 2em; height: 2em; text-align: center; font-size: 2em; background-color: " + colour + ";\"";
                     bufferedWriter.write("<td " + style + ">");
-                    if (players[playerIndex-1].p.y == i && players[playerIndex-1].p.x == j)
+                    if (playerList[playerIndex-1].position.y == i && playerList[playerIndex-1].position.x == j)
                         bufferedWriter.write("&bull;");
                     bufferedWriter.write("</td>");
                 }

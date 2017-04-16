@@ -1,7 +1,5 @@
 import java.util.Random;
 
-import static java.lang.Character.toLowerCase;
-
 /**
  * @author denise
  * @version 13/04/2017
@@ -9,15 +7,22 @@ import static java.lang.Character.toLowerCase;
 
 public class Player{
 
-    Position p;
+    public Position position;
+    public int[][] uncoveredTiles;
 
     /**
      * Initialises the player and assigns a random position
      * @param mapSize the size of Map
      */
-    public void init(int mapSize){
+    public Player(int mapSize){
         Random random = new Random();
-        p = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        uncoveredTiles = new int[mapSize][mapSize];
+        for (int i = 0; i < uncoveredTiles.length; i++) {
+            for (int j = 0; j < uncoveredTiles[i].length; j++) {
+                uncoveredTiles[i][j] = 1;
+            }
+        }
     }
 
     /**
@@ -30,27 +35,26 @@ public class Player{
      * @param direction the direction the user wants to move
      */
     public void move(char direction){
-        toLowerCase(direction);
         boolean validMove = true;
         while(validMove) {
             switch (direction) {
                 case 'u': {
-                    p.y++;
+                    position.y++;
                     System.out.println("Moved UP");
                     break;
                 }
                 case 'd': {
-                    p.y--;
+                    position.y--;
                     System.out.println("Moved DOWN");
                     break;
                 }
                 case 'l': {
-                    p.x--;
+                    position.x--;
                     System.out.println("Moved LEFT");
                     break;
                 }
                 case 'r': {
-                    p.x++;
+                    position.x++;
                     System.out.println("Moved RIGHT");
                     break;
                 }
@@ -66,14 +70,13 @@ public class Player{
     /**
      * Checks the position of the player
      * @param p the position of the player
-     * @param tileType the type of tile the player lands on
      * @return true if the tile is OK to land on, false otherwise
      */
 
-    public boolean setPosition(Position p, char tileType){
-        if(tileType == 'g'){
+    public boolean setPosition(Position p, Map map){
+        if (map.getTileType(p.x, p.y)=='g' || map.getTileType(p.x, p.y)=='w' || map.getTileType(p.x, p.y)=='t'){
             return true;
         }
-        return tileType == 't';
+        return false;
     }
 }
