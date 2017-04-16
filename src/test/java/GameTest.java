@@ -7,34 +7,53 @@ import java.io.File;
  * @version 13/04/2017
  */
 public class GameTest {
-    private Game g;
 
     @Before
     public void gameSetUp() throws Exception {
-        g = new Game();
-        g.numOfPlayers = 5;
-        g.generateHTMLFiles();
+        Game.numOfPlayers = 5;
+        Game.playerList = new Player[Game.numOfPlayers];
+        Game.mapSize = 8;
+        for (int i = 0; i < Game.numOfPlayers; i++) {
+            Game.playerList[i] = new Player(Game.mapSize);
+        }
+        Game.generateHTMLFiles();
     }
 
     @Test
-    public void testInputNumOfPlayers() throws Exception{
-        Assert.assertFalse(g.setNumPlayers(1));
-        Assert.assertTrue(g.setNumPlayers(2));
-        Assert.assertTrue(g.setNumPlayers(3));
-        Assert.assertTrue(g.setNumPlayers(8));
-        Assert.assertFalse(g.setNumPlayers(9));
+    public void testInputTooLittlePlayers() throws Exception {
+        Assert.assertFalse(Game.setNumPlayers(1));
+    }
+    
+    @Test
+    public void testInput2Players() throws Exception {
+        Assert.assertTrue(Game.setNumPlayers(2));
+    }
+    
+    @Test
+    public void testInput3Players() throws Exception {
+        Assert.assertTrue(Game.setNumPlayers(3));
+    }
+    
+    @Test
+    public void testInput8Players() throws Exception {
+        Assert.assertTrue(Game.setNumPlayers(8));
+    }
+    
+    @Test
+    public void testInputTooMuchPlayers() throws Exception {
+        Assert.assertFalse(Game.setNumPlayers(9));
     }
 
     @Test
     public void testPlayerArray() throws Exception{
-        Assert.assertEquals(g.numOfPlayers, g.playerList.length);
+        Assert.assertEquals(Game.numOfPlayers, Game.playerList.length);
     }
 
     @Test
     public void testGeneratedHTMLFiles() throws Exception{
         int playerIndex = 1;
 
-        for(int i=0; i<g.numOfPlayers; i++, playerIndex++) {
+        for(int i=0; i<Game.numOfPlayers; i++, playerIndex++) {
             String filename = "map_player_" + playerIndex + ".html";
             String pathToFile = "src/gamefiles/"+filename;
 

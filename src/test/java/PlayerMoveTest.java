@@ -20,8 +20,7 @@ public class PlayerMoveTest{
     @Before
     public void initialisePlayerPos() throws Exception{
         System.setOut(new PrintStream(outContent));
-        player = new Player();
-        player.init(5);
+        player = new Player(5);
         Assert.assertNotNull(player.position.x);
         Assert.assertNotNull(player.position.y);
     }

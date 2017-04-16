@@ -1,7 +1,5 @@
 import java.util.Random;
 
-import static java.lang.Character.toLowerCase;
-
 /**
  * @author denise
  * @version 13/04/2017
@@ -16,10 +14,15 @@ public class Player{
      * Initialises the player and assigns a random position
      * @param mapSize the size of Map
      */
-    public void init(int mapSize){
+    public Player(int mapSize){
         Random random = new Random();
         position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
         uncoveredTiles = new int[mapSize][mapSize];
+        for (int i = 0; i < uncoveredTiles.length; i++) {
+            for (int j = 0; j < uncoveredTiles[i].length; j++) {
+                uncoveredTiles[i][j] = 1;
+            }
+        }
     }
 
     /**
