@@ -27,7 +27,7 @@ public class GameTest {
 
     @Test
     public void testPlayerArray() throws Exception{
-        Assert.assertEquals(g.numOfPlayers, g.players.length);
+        Assert.assertEquals(g.numOfPlayers, g.playerList.length);
     }
 
     @Test
