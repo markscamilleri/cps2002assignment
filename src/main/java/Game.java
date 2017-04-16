@@ -51,15 +51,17 @@ public class Game {
             // Prompt user for input and check it.
             do {
                 System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
-                moveInput = scan.next().charAt(0);
-                moveInput = Character.toLowerCase(moveInput);
+                String input = scan.next();
+                if(!input.trim().isEmpty()) {
+                    moveInput = Character.toLowerCase(input.charAt(0));
+                } else {
+                    moveInput = ' '; // Makes the input loop
+                }
                 player.move(moveInput);
+                System.out.print("\n");
             }
             while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
             
-            Position previous = player.position;
-            player.move(moveInput);
-            System.out.print("\n");
             Position newPos = player.position;
             if (player.setPosition(newPos, map)) {
                 player.position = newPos;
