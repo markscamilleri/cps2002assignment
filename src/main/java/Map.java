@@ -1,5 +1,5 @@
 /**
- * @author denise
+ * @author mark
  * @version 12/04/2017.
  */
 public class Map{
@@ -15,18 +15,25 @@ public class Map{
      * @throws IllegalArgumentException if the map size is too big
      *          (x or y > 50) or too small (x or y < 5)
      */
-    //TODO set condition if map size returns false, then object is not valid
     public Map(int x, int y) throws IllegalArgumentException {
-        setMapSize(x,y);
+        if(!setMapSize(x,y))
+            throw new IllegalArgumentException("Invalid map size");
         generate();
     }
     
-    // TODO: set conditions and to return based on those.
+    /**
+     * Sets the size of the map.
+     * @param x the x-axis size
+     * @param y the y-axis size
+     * @return
+     */
     private boolean setMapSize(int x, int y){
-        sizeX = x;
-        sizeY = y;
-        
-        return true;
+        if(x < 5 || y < 5 || x > 50 || y > 50) return false;
+        else {
+            sizeX = x;
+            sizeY = y;
+            return true;
+        }
     }
     
     /**
