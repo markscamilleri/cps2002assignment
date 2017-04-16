@@ -61,4 +61,24 @@ public class GameTest {
             Assert.assertTrue(file.exists());
         }
     }
+    
+    @Test
+    public void testGetColourForGrassTile() throws Exception {
+        Assert.assertEquals("green", Game.getColour('g'));
+    }
+    
+    @Test
+    public void testGetColourForWaterTile() throws Exception {
+        Assert.assertEquals("blue", Game.getColour('w'));
+    }
+    
+    @Test
+    public void testGetColourForTreasureTile() throws Exception {
+        Assert.assertEquals("gold", Game.getColour('t'));
+    }
+    
+    @Test
+    public void testGetColourForUnknownOrInvalidTile() throws Exception {
+        Assert.assertEquals("grey", Game.getColour(' '));
+    }
 }

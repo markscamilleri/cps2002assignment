@@ -142,20 +142,7 @@ public class Game {
                 for (int j = 0; j < mapSize; j++) {
                     String colour;
                     if (playerList[playerIndex - 1].uncoveredTiles[i][j] == 0) {
-                        switch (map.getTileType(i, j)) {
-                            case 'g':
-                                colour = "green";
-                                break;
-                            case 'w':
-                                colour = "blue";
-                                break;
-                            case 't':
-                                colour = "gold";
-                                break;
-                            default: //This should never be used.
-                                colour = "grey";
-                                break;
-                        }
+                        colour = getColour(map.getTileType(i, j));
                     } else {
                         colour = "grey";
                     }
@@ -181,6 +168,24 @@ public class Game {
                     ex.getMessage();
                 }
             }
+        }
+    }
+    
+    /**
+     * Returns the HTML Colour value as a string
+     * @param tileType The type of tile uncovered
+     * @return green, blue, gold or (but should never return) grey.
+     */
+    static String getColour(char tileType) {
+        switch (tileType) {
+            case 'g':
+                return "green";
+            case 'w':
+                return "blue";
+            case 't':
+                return "gold";
+            default: //This should never be used.
+                return "grey";
         }
     }
 }
