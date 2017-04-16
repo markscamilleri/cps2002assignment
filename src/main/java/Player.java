@@ -35,34 +35,30 @@ public class Player{
      * @param direction the direction the user wants to move
      */
     public void move(char direction){
-        boolean validMove = true;
-        while(validMove) {
-            switch (direction) {
-                case 'u': {
-                    position.y++;
-                    System.out.println("Moved UP");
-                    break;
-                }
-                case 'd': {
-                    position.y--;
-                    System.out.println("Moved DOWN");
-                    break;
-                }
-                case 'l': {
-                    position.x--;
-                    System.out.println("Moved LEFT");
-                    break;
-                }
-                case 'r': {
-                    position.x++;
-                    System.out.println("Moved RIGHT");
-                    break;
-                }
-                default: {
-                    validMove = false;
-                    System.out.println("Invalid move");
-                    break;
-                }
+        switch (direction) {
+            case 'u': {
+                position.y++;
+                System.out.print("Moved UP");
+                break;
+            }
+            case 'd': {
+                position.y--;
+                System.out.print("Moved DOWN");
+                break;
+            }
+            case 'l': {
+                position.x--;
+                System.out.print("Moved LEFT");
+                break;
+            }
+            case 'r': {
+                position.x++;
+                System.out.print("Moved RIGHT");
+                break;
+            }
+            default: {
+                System.out.print("Invalid move");
+                break;
             }
         }
     }
