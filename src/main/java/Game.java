@@ -41,18 +41,24 @@ public class Game {
             playerList[i] = p;
         }
         
-        //generate HTML Game Files for each Player
-        generateHTMLFiles();
-        
         boolean gameOver = false;
         while(!gameOver) {
+            //generate HTML Game Files for each Player
+            generateHTMLFiles();
+            
             for (int i = 0; i < playerList.length; i++) {
                 Player player = playerList[i];
                 Position previous = player.position;
         
                 // Prompt user for input and check it.
                 do {
-                    System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
+                    System.out.println("Player "+ (i+1)+"'s turn.");
+                    System.out.println("Enter your move.");
+                    System.out.println("U to move UP");
+                    System.out.println("D to move DOWN");
+                    System.out.println("L to move LEFT");
+                    System.out.println("R to move Right");
+                    
                     String input = scan.next();
                     if (!input.trim().isEmpty()) {
                         moveInput = Character.toLowerCase(input.charAt(0));
