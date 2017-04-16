@@ -9,7 +9,7 @@ public class Player {
     
     private Position startPosition;
     public Position position;
-    public int[][] uncoveredTiles;
+    public boolean[][] uncoveredTiles;
     
     /**
      * Initialises the player and assigns a random position
@@ -21,10 +21,10 @@ public class Player {
         position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
         startPosition = new Position(position.x, position.y);
         
-        uncoveredTiles = new int[mapSize][mapSize];
+        uncoveredTiles = new boolean[mapSize][mapSize];
         for (int i = 0; i < uncoveredTiles.length; i++) {
             for (int j = 0; j < uncoveredTiles[i].length; j++) {
-                uncoveredTiles[i][j] = 1;
+                uncoveredTiles[i][j] = false;
             }
         }
     }
@@ -76,12 +76,13 @@ public class Player {
      */
     
     public boolean setPosition(Position p, Map map) {
-        if (map.getTileType(p.x, p.y) == 'g' || map.getTileType(p.x, p.y) == 'w' || map.getTileType(p.x, p.y) == 't') {
-            return true;
-        }
-        return false;
+        return map.getTileType(p.x, p.y) == 'g' || map.getTileType(p.x, p.y) == 'w' || map.getTileType(p.x, p.y) == 't';
     }
     
+    /**
+     * Returns the a copy of the start position.
+     * @return a deep copy of the player's start position
+     */
     public Position getStartPosition(){
         return new Position(startPosition.x, startPosition.y);
     }

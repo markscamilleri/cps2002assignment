@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class Game {
     public static int numOfPlayers;
-    public static int turns;
     public static int mapSize;
     public static Player playerList[];
     private static Map map;
@@ -21,7 +20,6 @@ public class Game {
         scan.useDelimiter("\n");
         
         char moveInput;
-        int loopIndex = 0;
         
         //Ask for number of players
         do {
@@ -42,17 +40,17 @@ public class Game {
         }
         
         boolean gameOver = false;
-        while(!gameOver) {
+        while (!gameOver) {
             //generate HTML Game Files for each Player
             generateHTMLFiles();
             
             for (int i = 0; i < playerList.length; i++) {
                 Player player = playerList[i];
-                Position previous = player.position;
-        
+                Position previous = new Position(player.position.x, player.position.y);
+                
                 // Prompt user for input and check it.
                 do {
-                    System.out.println("Player "+ (i+1)+"'s turn.");
+                    System.out.println("Player " + (i + 1) + "'s turn.");
                     System.out.println("Enter your move.");
                     System.out.println("U to move UP");
                     System.out.println("D to move DOWN");
@@ -69,41 +67,30 @@ public class Game {
                     System.out.print("\n");
                 }
                 while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
-        
+                
                 Position newPos = player.position;
                 if (player.setPosition(newPos, map)) {
                     player.position = newPos;
                 } else {
                     player.position = previous;
                 }
-        
-                while (player.uncoveredTiles[player.position.x][player.position.y] == 0) {
-                    player.uncoveredTiles[player.position.x][player.position.y] = 1;
-                    if (map.getTileType(player.position.x, player.position.y) == 't') {
-                        System.out.println("Congratulations, you have found the treasure");
-                        gameOver = true;
-                        System.out.println("Player " + (i+1) + " wins!");
-                        break;
-                    }
-            
-                    if (map.getTileType(player.position.x, player.position.y) == 'w') {
-                        System.out.println("OOPS, you got a water tile. You died!");
-                        System.out.println("You have respawned in your start position");
-                        player.position = player.getStartPosition();
-                        break;
-                    }
-            
-                    if (map.getTileType(player.position.x, player.position.y) == 'g') {
-                        System.out.println("You got a Grass tile! Wait for your turn.");
-                        break;
-                    }
-                    loopIndex++;
-            
-                    if (loopIndex == playerList.length) {
-                        loopIndex = 0;
-                        player = playerList[0];
-                        turns++;
-                    }
+                
+                String action = "stepped";
+                if (!player.uncoveredTiles[player.position.x][player.position.y]) {
+                    player.uncoveredTiles[player.position.x][player.position.y] = true;
+                    action = "found";
+                }
+                
+                if (map.getTileType(player.position.x, player.position.y) == 't') {
+                    System.out.println("Congratulations, you have found the treasure");
+                    gameOver = true;
+                    System.out.println("Player " + (i + 1) + " wins!");
+                } else if (map.getTileType(player.position.x, player.position.y) == 'w') {
+                    System.out.println("OOPS, you " + action + " on a water tile. You died!");
+                    System.out.println("You have respawned in your start position");
+                    player.position = player.getStartPosition();
+                } else if (map.getTileType(player.position.x, player.position.y) == 'g') {
+                    System.out.println("You " + action + " a Grass tile! Wait for your turn.");
                 }
             }
         }
@@ -154,7 +141,7 @@ public class Game {
                 bufferedWriter.write("<tr>");
                 for (int j = 0; j < mapSize; j++) {
                     String colour;
-                    if (playerList[playerIndex - 1].uncoveredTiles[i][j] == 0) {
+                    if (playerList[playerIndex - 1].uncoveredTiles[i][j]) {
                         colour = getColour(map.getTileType(i, j));
                     } else {
                         colour = "grey";
@@ -186,6 +173,7 @@ public class Game {
     
     /**
      * Returns the HTML Colour value as a string
+     *
      * @param tileType The type of tile uncovered
      * @return green, blue, gold or (but should never return) grey.
      */
