@@ -21,7 +21,6 @@ public class Game {
         scan.useDelimiter("\n");
         
         //char moveInput = ' ';
-        int loopIndex = 0;
         
         //Ask for number of players
 //        do {

@@ -20,7 +20,7 @@ public class Player {
         Random random = new Random();
         do {
             position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
-        }while(Game.map.getTileType(position.x, position.y) != 'g');
+        } while(Game.map.getTileType(position.x, position.y) != 'g');
         startPosition = new Position(position.x, position.y);
         
         uncoveredTiles = new boolean[mapSize][mapSize];
