@@ -1,8 +1,9 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.*;
 
 
 /**
@@ -16,6 +17,12 @@ public class GameTest {
     private Player[] players;
     private Map map;
     
+    private final InputStream stdin = System.in;
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+    
+    
     @Before
     public void gameSetUp() throws Exception {
         NUMBER_OF_PLAYERS = 5;
@@ -23,6 +30,8 @@ public class GameTest {
         map = new Map(MAP_SIZE, MAP_SIZE);
         Game.map = map;
         players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
+    
+        System.setOut(new PrintStream(output));
     }
 
     @Test
@@ -92,7 +101,6 @@ public class GameTest {
     
     @Test
     public void testCreatePlayerList() throws Exception {
-       
         Player[] test = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
         
         Assert.assertEquals(NUMBER_OF_PLAYERS, test.length);
@@ -100,5 +108,11 @@ public class GameTest {
         for (Player player : test) {
             Assert.assertNotNull(player);
         }
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        System.setIn(stdin);
+        System.setOut(stdout);
     }
 }
