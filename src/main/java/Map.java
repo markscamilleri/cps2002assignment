@@ -28,7 +28,7 @@ public class Map{
      * @return
      */
     private boolean setMapSize(int x, int y){
-        if(x < 5 || y < 5 || x > 50 || y > 50) return false;
+        if(!checkMapSize(x) || !checkMapSize(y)) return false;
         else {
             sizeX = x;
             sizeY = y;
@@ -88,6 +88,15 @@ public class Map{
         } else {
             return map[x][y];
         }
+    }
+    
+    /**
+     * Tests to see if the map size is valid
+     * @param mapSize the size to check
+     * @return true if the size is valid, false if it isn't
+     */
+    public static boolean checkMapSize(int mapSize){
+        return mapSize >= 5 && mapSize <= 50;
     }
 }
 

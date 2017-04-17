@@ -7,17 +7,21 @@ import java.io.File;
  * @version 13/04/2017
  */
 public class GameTest {
-
+    int NUMBER_OF_PLAYERS;
+    int MAP_SIZE;
+    
+    Player[] players;
+    Map map;
+    
+    
     @Before
     public void gameSetUp() throws Exception {
-        Game.numOfPlayers = 5;
-        Game.playerList = new Player[Game.numOfPlayers];
-        Game.mapSize = 8;
-        Game.map = new Map(Game.mapSize, Game.mapSize);
-        for (int i = 0; i < Game.numOfPlayers; i++) {
-            Game.playerList[i] = new Player(Game.mapSize);
-        }
-        Game.generateHTMLFiles();
+        NUMBER_OF_PLAYERS = 5;
+        MAP_SIZE = 8;
+        map = new Map(MAP_SIZE, MAP_SIZE);
+        Game.map = map;
+        players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
+        
     }
 
     @Test
@@ -44,18 +48,13 @@ public class GameTest {
     public void testInputTooMuchPlayers() throws Exception {
         Assert.assertFalse(Game.setNumPlayers(9));
     }
-
-    @Test
-    public void testPlayerArray() throws Exception{
-        Assert.assertEquals(Game.numOfPlayers, Game.playerList.length);
-    }
-
+    
     @Test
     public void testGeneratedHTMLFiles() throws Exception{
-        int playerIndex = 1;
-
-        for(int i=0; i<Game.numOfPlayers; i++, playerIndex++) {
-            String filename = "map_player_" + playerIndex + ".html";
+        Game.generateHTMLFiles(players);
+        
+        for(int i=0; i < NUMBER_OF_PLAYERS; i++) {
+            String filename = "map_player_" + (i+1) + ".html";
             String pathToFile = "src/gamefiles/"+filename;
 
             File file = new File(pathToFile);

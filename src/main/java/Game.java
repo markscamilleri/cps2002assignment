@@ -10,65 +10,33 @@ import java.util.Scanner;
  */
 
 public class Game {
-    public static int numOfPlayers;
-    public static int mapSize;
-    public static Player playerList[];
     static Map map;
     private static Scanner scan = new Scanner(System.in);
     
     public static void main(String[] args) {
-        //Scanner scan = new Scanner(System.in);
+        Player playerList[];
+    
         scan.useDelimiter("\n");
         
-        //char moveInput = ' ';
+        final int numOfPlayers = getNumberOfPlayers();
         
-        //Ask for number of players
-//        do {
-//            System.out.println("Enter the number of players:");
-//            numOfPlayers = scan.nextInt();
-//        } while (!setNumPlayers(numOfPlayers));
-        getNumberOfPlayers();
-        playerList = new Player[numOfPlayers];
-        
-        // Ask user for map size
-//        System.out.println("Enter map size: ");
-//        mapSize = scan.nextInt();
-        getMapSize();
+        final int mapSize = getMapSize();
         map = new Map(mapSize, mapSize);
         
-        //create Player List
-//        for (int i = 0; i < numOfPlayers; i++) {
-//            Player p = new Player(mapSize);
-//            playerList[i] = p;
-//        }
-        createPlayerList();
-//
-        
+        playerList = createPlayerList(numOfPlayers, mapSize);
+
         boolean gameOver = false;
         while (!gameOver) {
             //generate HTML Game Files for each Player
-            generateHTMLFiles();
+            generateHTMLFiles(playerList);
             
             // Loop till winning
             for (int i = 0; i < playerList.length; i++) {
                 Player player = playerList[i];
                 Position previous = player.position;
                 
-                
                 // Prompt user for input and check it.
                 getNextMove(player, i);
-//            do {
-//                System.out.println("Enter your move. \nU to move UP \nD to move DOWN \nL to move LEFT \nR to move Right");
-//                String input = scan.next();
-//                if(!input.trim().isEmpty()) {
-//                    moveInput = Character.toLowerCase(input.charAt(0));
-//                } else {
-//                    moveInput = ' '; // Makes the input loop
-//                }
-//                player.move(moveInput);
-//                System.out.print("\n");
-//            }
-//            while (!(moveInput == 'u' || moveInput == 'd' || moveInput == 'l' || moveInput == 'r'));
                 
                 Position newPos = player.position;
                 if (player.setPosition(newPos, map)) {
@@ -86,29 +54,49 @@ public class Game {
     }
     
     //Ask for number of players
-    private static void getNumberOfPlayers() {
+    public static int getNumberOfPlayers() {
+        int input;
         do {
             System.out.println("Enter the number of players:");
-            numOfPlayers = scan.nextInt();
-        } while (!setNumPlayers(numOfPlayers));
+            input = scan.nextInt();
+        } while (!setNumPlayers(input));
+    
+        flushScanner();
+    
+        return input;
     }
     
-    private static void getMapSize() {
-        System.out.println("Enter map size: ");
-        mapSize = scan.nextInt();
+    // Auxiliary method, to make calling it simpler
+    private static void flushScanner() {
+        while(scan.hasNext())scan.next(); //Flushes buffer;
     }
     
-    private static void createPlayerList() {
+    public static int getMapSize() {
+        int mapSize;
+        do {
+            System.out.println("Enter map size: ");
+            mapSize = scan.nextInt();
+        } while(!Map.checkMapSize(mapSize));
+        
+        flushScanner();
+        
+        return mapSize;
+    }
+    
+    public static Player[] createPlayerList(final int numOfPlayers, final int mapSize) {
+        Player[] players = new Player[numOfPlayers];
         for (int i = 0; i < numOfPlayers; i++) {
             Player p = new Player(mapSize);
-            playerList[i] = p;
+            players[i] = p;
         }
+        
+        return players;
     }
     
     /**
      * Generates Game HTML Files for each player
      */
-    public static void generateHTMLFiles() {
+    public static void generateHTMLFiles(Player[] players) {
         //Deleting all previously created game files
         File dir = new File("src/gamefiles");
         for (File file : dir.listFiles()) {
@@ -118,12 +106,12 @@ public class Game {
         }
         
         //Creating new game files according to the new game
-        for (int playerIndex = 1; playerIndex <= numOfPlayers; playerIndex++) {
-            generateHTMLFile(playerIndex);
+        for (int playerIndex = 1; playerIndex <= players.length; playerIndex++) {
+            generateHTMLFile(players[playerIndex-1], playerIndex);
         }
     }
     
-    protected static void getNextMove(Player player, int playerIndex) {
+    private static void getNextMove(Player player, int playerIndex) {
         char move;
         do {
             System.out.println("Player " + (playerIndex + 1) + "'s turn.");
@@ -176,7 +164,7 @@ public class Game {
         return !(n < 2 || n > 8);
     }
     
-    private static void generateHTMLFile(int playerIndex) {
+    private static void generateHTMLFile(Player player, int playerIndex) {
         String filename = "map_player_" + playerIndex + ".html";
         String pathToFile = "src/gamefiles/" + filename;
         
@@ -188,11 +176,11 @@ public class Game {
             bufferedWriter.write("<html>\n<body>\n");
             bufferedWriter.write("<h1>Player Map for player " + playerIndex + "</h1>\n<div>\n<table>");
             
-            for (int y = mapSize - 1; y >= 0; y--) {
+            for (int y = map.getMapSize()[0] - 1; y >= 0; y--) {
                 bufferedWriter.write("<tr>");
-                for (int x = 0; x < mapSize; x++) {
+                for (int x = 0; x < map.getMapSize()[0]; x++) {
                     String colour;
-                    if (playerList[playerIndex - 1].uncoveredTiles[x][y]) {
+                    if (player.uncoveredTiles[x][y]) {
                         colour = getColour(map.getTileType(x, y));
                     } else {
                         colour = "grey";
@@ -200,7 +188,7 @@ public class Game {
                     
                     String style = "style=\"width: 2em; height: 2em; text-align: center; font-size: 2em; background-color: " + colour + ";\"";
                     bufferedWriter.write("<td " + style + ">");
-                    if (playerList[playerIndex - 1].position.y == y && playerList[playerIndex - 1].position.x == x)
+                    if (player.position.y == y && player.position.x == x)
                         bufferedWriter.write("&bull;");
                     bufferedWriter.write("</td>");
                 }
