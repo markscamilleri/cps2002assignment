@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -12,6 +9,7 @@ import java.util.Scanner;
 public class Game {
     static Map map;
     private static Scanner scan = new Scanner(System.in);
+
     
     //This class can't be instantiated
     private Game(){}
@@ -64,14 +62,9 @@ public class Game {
             input = scan.nextInt();
         } while (!setNumPlayers(input));
     
-        flushScanner();
+        while(scan.hasNext())scan.next(); //Flushes buffer;
     
         return input;
-    }
-    
-    // Auxiliary method, to make calling it simpler
-    private static void flushScanner() {
-        while(scan.hasNext())scan.next(); //Flushes buffer;
     }
     
     public static int getMapSize() {
@@ -80,8 +73,8 @@ public class Game {
             System.out.println("Enter map size: ");
             mapSize = scan.nextInt();
         } while(!Map.checkMapSize(mapSize));
-        
-        flushScanner();
+    
+        while(scan.hasNext())scan.next(); //Flushes buffer;
         
         return mapSize;
     }
@@ -136,7 +129,7 @@ public class Game {
         while (!(move == 'u' || move == 'd' || move == 'l' || move == 'r'));
     }
     
-    private static char getLandingTile(Player player, Map map) {
+    protected static char getLandingTile(Player player, Map map) {
         String action = "stepped";
         if (!player.uncoveredTiles[player.position.x][player.position.y]) {
             player.uncoveredTiles[player.position.x][player.position.y] = true;

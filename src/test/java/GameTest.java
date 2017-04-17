@@ -1,23 +1,20 @@
-import org.junit.*;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 /**
  * @author denise
  * @version 13/04/2017
  */
 public class GameTest {
-    int NUMBER_OF_PLAYERS;
-    int MAP_SIZE;
+    private int NUMBER_OF_PLAYERS;
+    private int MAP_SIZE;
     
-    Player[] players;
-    Map map;
-
-    @Rule
-    public final TextFromStandardInputStream simIn = emptyStandardInputStream();
+    private Player[] players;
+    private Map map;
     
     @Before
     public void gameSetUp() throws Exception {
@@ -26,7 +23,6 @@ public class GameTest {
         map = new Map(MAP_SIZE, MAP_SIZE);
         Game.map = map;
         players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
-        
     }
 
     @Test
@@ -88,9 +84,21 @@ public class GameTest {
     }
     
     @Test
-    public void testGetNumberOfPlayers() throws Exception{
-        simIn.provideLines("5", "smth else", "5");
+    public void testGetLandingTile() throws Exception {
+        for (Player player : players) {
+            Assert.assertEquals(map.getTileType(player.position.x, player.position.y), Game.getLandingTile(player, map));
+        }
+    }
+    
+    @Test
+    public void testCreatePlayerList() throws Exception {
+       
+        Player[] test = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
         
-        Assert.assertEquals(5, Game.getNumberOfPlayers());
+        Assert.assertEquals(NUMBER_OF_PLAYERS, test.length);
+    
+        for (Player player : test) {
+            Assert.assertNotNull(player);
+        }
     }
 }
