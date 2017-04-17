@@ -13,6 +13,9 @@ public class Game {
     static Map map;
     private static Scanner scan = new Scanner(System.in);
     
+    //This class can't be instantiated
+    private Game(){}
+    
     public static void main(String[] args) {
         Player playerList[];
     
