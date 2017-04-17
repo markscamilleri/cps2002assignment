@@ -1,6 +1,9 @@
 import org.junit.*;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.File;
+
+import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 /**
  * @author denise
@@ -12,7 +15,9 @@ public class GameTest {
     
     Player[] players;
     Map map;
-    
+
+    @Rule
+    public final TextFromStandardInputStream simIn = emptyStandardInputStream();
     
     @Before
     public void gameSetUp() throws Exception {
@@ -81,5 +86,11 @@ public class GameTest {
     public void testGetColourForUnknownOrInvalidTile() throws Exception {
         Assert.assertEquals("grey", Game.getColour(' '));
     }
-
+    
+    @Test
+    public void testGetNumberOfPlayers() throws Exception{
+        simIn.provideLines("5", "smth else", "5");
+        
+        Assert.assertEquals(5, Game.getNumberOfPlayers());
+    }
 }
