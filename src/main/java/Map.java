@@ -3,8 +3,8 @@
  * @version 12/04/2017.
  */
 public class Map {
-    private int sizeX;
-    private int sizeY;
+    protected int sizeX;
+    protected int sizeY;
     
     protected char map[][];
     
