@@ -39,7 +39,7 @@ public class Map{
     /**
      * Generates the map tiles.
      */
-    private void generate(){
+    protected void generate(){
         map = new char[sizeX][sizeY];
     
         boolean treasure = false;
