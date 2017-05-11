@@ -28,7 +28,7 @@ public class Map{
      * @return
      */
     private boolean setMapSize(int x, int y){
-        if(x < 5 || y < 5 || x > 50 || y > 50) return false;
+        if(!checkMapSize(x) || !checkMapSize(y)) return false;
         else {
             sizeX = x;
             sizeY = y;
@@ -80,22 +80,23 @@ public class Map{
      * @param x The x coordinate of the map
      * @param y The y coordinate of the map
      * @return 'g' if it's a grass tile, 'w' if it's a water tile,
-     *          't' if it's a treasure tile
-     * @throws IndexOutOfBoundsException if either the x parameter or
-     *          the y parameter is out of bounds.
+     *          't' if it's a treasure tile, 'u' if the tile is out of bounds
      */
     public char getTileType(int x, int y) throws IndexOutOfBoundsException {
-        if(x >= sizeX){
-            throw new IndexOutOfBoundsException("x-coordinate is larger than the map size");
-        } else if (y >= sizeY) {
-            throw new IndexOutOfBoundsException("y-coordinate is larger than the map size");
-        } else if (x < 0) {
-            throw new IndexOutOfBoundsException("x-coordinate is less than 0");
-        } else if (y < 0) {
-            throw new IndexOutOfBoundsException("y-coordinate is less than 0");
+        if (x >= sizeX || y >= sizeY || x < 0 || y < 0) {
+            return 'u';
         } else {
             return map[x][y];
         }
+    }
+    
+    /**
+     * Tests to see if the map size is valid
+     * @param mapSize the size to check
+     * @return true if the size is valid, false if it isn't
+     */
+    public static boolean checkMapSize(int mapSize){
+        return mapSize >= 5 && mapSize <= 50;
     }
 }
 
