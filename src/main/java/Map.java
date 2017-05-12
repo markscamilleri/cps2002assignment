@@ -75,6 +75,14 @@ public class Map {
                 }
             }
         }
+        
+        // To gurantee that there is a treasure tile
+        if(!treasure) {
+            int treasureRow = (int) (Math.random() * map.length);
+            int treasureCol = (int) (Math.random() * map.length);
+            
+            map[treasureRow][treasureCol] = 't';
+        }
     }
     
     /**

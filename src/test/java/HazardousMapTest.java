@@ -3,16 +3,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author mark
- * @version 13/04/17.
+ * @author Mark Said Camilleri
+ * @version 12/05/17.
  */
-public class MapTest {
-    
-    private Map map;
+public class HazardousMapTest {
+    private HazardousMap map;
     
     @Before
     public void setUp() throws Exception {
-        map = new Map(8, 8);
+        map = new HazardousMap(8, 8);
     }
     
     @Test
@@ -22,32 +21,32 @@ public class MapTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapXTooLarge() throws Exception {
-        map = new Map(51, 8);
+        map = new HazardousMap(51, 8);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapXTooSmall() throws Exception {
-        map = new Map(4, 8);
+        map = new HazardousMap(4, 8);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapYTooLarge() throws Exception {
-        map = new Map(8, 51);
+        map = new HazardousMap(8, 51);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapYTooSmall() throws Exception {
-        map = new Map(8, 4);
+        map = new HazardousMap(8, 4);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapXYTooLarge() throws Exception {
-        map = new Map(51, 51);
+        map = new HazardousMap(51, 51);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testMapXYTooSmall() throws Exception {
-        map = new Map(4, 4);
+        map = new HazardousMap(4, 4);
     }
     
     
@@ -121,6 +120,24 @@ public class MapTest {
     }
     
     @Test
+    public void test2535PercentWater() {
+        double waterTiles = 0;
+        double tiles = 0;
+        
+        for (int i = 0; i < map.sizeX; i++) {
+            for (int j = 0; j < map.sizeY; j++) {
+                if (map.getTileType(i, j) == 'w') {
+                    waterTiles++;
+                }
+                tiles++;
+            }
+        }
+        
+        Assert.assertTrue("There are less than 25% water tiles", (waterTiles / tiles) >= 0.25);
+        Assert.assertTrue("There are more than 35% water tiles", (waterTiles / tiles) <= 0.35);
+    }
+    
+    @Test
     public void testThereIsATreasureTile() {
         
         boolean treasureTile = false;
@@ -133,4 +150,5 @@ public class MapTest {
         
         Assert.assertTrue(treasureTile);
     }
+    
 }
