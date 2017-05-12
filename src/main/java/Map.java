@@ -7,7 +7,14 @@ public class Map {
     protected int sizeY;
     
     protected char map[][];
-    
+
+    /**
+     * Default constructor for Map class
+     */
+    public Map(){
+
+    }
+
     /**
      * Creates the map
      *
