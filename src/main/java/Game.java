@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -9,23 +12,24 @@ import java.util.Scanner;
 public class Game {
     static Map map;
     private static Scanner scan = new Scanner(System.in);
-
+    
     
     //This class can't be instantiated
-    private Game(){}
+    private Game() {
+    }
     
     public static void main(String[] args) {
         Player playerList[];
-    
+        
         scan.useDelimiter("\n");
         
         final int numOfPlayers = getNumberOfPlayers();
         
         final int mapSize = getMapSize();
-        map = new Map(mapSize, mapSize);
+        map = getMap(mapSize);
         
         playerList = createPlayerList(numOfPlayers, mapSize);
-
+        
         boolean gameOver = false;
         while (!gameOver) {
             //generate HTML Game Files for each Player
@@ -54,31 +58,47 @@ public class Game {
         }
     }
     
-    //Ask for number of players
+    /**
+     * Asks the user for the number of players
+     *
+     * @return the number of players
+     */
     public static int getNumberOfPlayers() {
         int input;
         do {
             System.out.println("Enter the number of players:");
             input = scan.nextInt();
         } while (!setNumPlayers(input));
-    
-        while(scan.hasNext())scan.next(); //Flushes buffer;
-    
+        
+        while (scan.hasNext()) scan.next(); //Flushes buffer;
+        
         return input;
     }
     
+    /**
+     * Prompts the user for the map size and returns it
+     *
+     * @return the map size given by the user. Gurantees a legal amount
+     */
     public static int getMapSize() {
         int mapSize;
         do {
             System.out.println("Enter map size: ");
             mapSize = scan.nextInt();
-        } while(!Map.checkMapSize(mapSize));
-    
-        while(scan.hasNext())scan.next(); //Flushes buffer;
+        } while (!Map.checkMapSize(mapSize));
+        
+        while (scan.hasNext()) scan.next(); //Flushes buffer;
         
         return mapSize;
     }
     
+    /**
+     * Creates the player list
+     *
+     * @param numOfPlayers the number of players that will be playing
+     * @param mapSize      the size of the map that is used
+     * @return the list of players
+     */
     public static Player[] createPlayerList(final int numOfPlayers, final int mapSize) {
         Player[] players = new Player[numOfPlayers];
         for (int i = 0; i < numOfPlayers; i++) {
@@ -103,7 +123,7 @@ public class Game {
         
         //Creating new game files according to the new game
         for (int playerIndex = 1; playerIndex <= players.length; playerIndex++) {
-            generateHTMLFile(players[playerIndex-1], playerIndex);
+            generateHTMLFile(players[playerIndex - 1], playerIndex);
         }
     }
     
@@ -129,6 +149,13 @@ public class Game {
         while (!(move == 'u' || move == 'd' || move == 'l' || move == 'r'));
     }
     
+    /**
+     * Gets the tile type the user landed on
+     *
+     * @param player the player who's playing
+     * @param map    the map used
+     * @return the tile type
+     */
     protected static char getLandingTile(Player player, Map map) {
         String action = "stepped";
         if (!player.uncoveredTiles[player.position.x][player.position.y]) {
@@ -222,6 +249,30 @@ public class Game {
                 return "gold";
             default: //This should never be used.
                 return "grey";
+        }
+    }
+    
+    /**
+     * Prompts the user for the map type and returns the generated map
+     *
+     * @param mapSize the map size
+     * @return the generated map.
+     */
+    public static Map getMap(final int mapSize) {
+        int mapType = -99;
+        do {
+            System.out.println("Enter the number corresponding to the map type");
+            System.out.println("you want to use: \n");
+            System.out.println("1 Safe Map");
+            System.out.println("2 Hazardous Map");
+            
+            mapType = scan.nextInt();
+        } while (mapType < 1 || mapType > 2);
+        
+        if (mapType == 1) {
+            return new Map(mapSize, mapSize); //TODO change this to safe map
+        } else { // mapType is guaranteed to be a 1 or a 2.
+            return new HazardousMap(mapSize, mapSize);
         }
     }
 }
