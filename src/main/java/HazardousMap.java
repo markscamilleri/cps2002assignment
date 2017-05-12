@@ -55,5 +55,17 @@ public class HazardousMap extends Map {
                 noOfTilesLeft--;
             }
         }
+    
+        // To gurantee that there is a treasure tile
+        if(!treasure) {
+            int treasureRow;
+            int treasureCol;
+            do {
+                treasureRow = (int) (Math.random() * map.length);
+                treasureCol = (int) (Math.random() * map.length);
+            } while(map[treasureRow][treasureCol] != 'g');
+            
+            map[treasureRow][treasureCol] = 't';
+        }
     }
 }
