@@ -69,9 +69,7 @@ public class Game {
             System.out.println("Enter the number of players:");
             input = scan.nextInt();
         } while (!setNumPlayers(input));
-        
-        while (scan.hasNext()) scan.next(); //Flushes buffer;
-        
+
         return input;
     }
     
@@ -86,9 +84,7 @@ public class Game {
             System.out.println("Enter map size: ");
             mapSize = scan.nextInt();
         } while (!Map.checkMapSize(mapSize));
-        
-        while (scan.hasNext()) scan.next(); //Flushes buffer;
-        
+
         return mapSize;
     }
     
