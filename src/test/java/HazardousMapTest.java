@@ -123,7 +123,7 @@ public class HazardousMapTest {
     public void test2535PercentWater() {
         double waterTiles = 0;
         double tiles = 0;
-    
+        
         for (int i = 0; i < map.sizeX; i++) {
             for (int j = 0; j < map.sizeY; j++) {
                 if (map.getTileType(i, j) == 'w') {
@@ -132,8 +132,23 @@ public class HazardousMapTest {
                 tiles++;
             }
         }
-    
+        
         Assert.assertTrue("There are less than 25% water tiles", (waterTiles / tiles) >= 0.25);
         Assert.assertTrue("There are more than 35% water tiles", (waterTiles / tiles) <= 0.35);
     }
+    
+    @Test
+    public void testThereIsATreasureTile() {
+        
+        boolean treasureTile = false;
+        
+        for (int i = 0; i < map.sizeY && !treasureTile; i++) {
+            for (int j = 0; j < map.sizeX && !treasureTile; j++) {
+                treasureTile = (map.getTileType(j, i) == 't');
+            }
+        }
+        
+        Assert.assertTrue(treasureTile);
+    }
+    
 }

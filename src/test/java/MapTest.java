@@ -119,4 +119,18 @@ public class MapTest {
         char type = map.getTileType(51, 51);
         Assert.assertTrue("Tile is not unknoown", type == 'u');
     }
+    
+    @Test
+    public void testThereIsATreasureTile() {
+        
+        boolean treasureTile = false;
+        
+        for (int i = 0; i < map.sizeY && !treasureTile; i++) {
+            for (int j = 0; j < map.sizeX && !treasureTile; j++) {
+                treasureTile = (map.getTileType(j, i) == 't');
+            }
+        }
+        
+        Assert.assertTrue(treasureTile);
+    }
 }
