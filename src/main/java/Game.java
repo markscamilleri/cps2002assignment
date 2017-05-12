@@ -270,7 +270,7 @@ public class Game {
         } while (mapType < 1 || mapType > 2);
         
         if (mapType == 1) {
-            return new Map(mapSize, mapSize); //TODO change this to safe map
+            return new SafeMap(mapSize, mapSize);
         } else { // mapType is guaranteed to be a 1 or a 2.
             return new HazardousMap(mapSize, mapSize);
         }
