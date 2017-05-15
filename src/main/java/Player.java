@@ -9,26 +9,38 @@ public class Player {
     
     private Position startPosition;
     public Position position;
-    public boolean[][] uncoveredTiles;
+    private Team team;
     
     /**
      * Initialises the player and assigns a random position
+     * This constructor is to be used for solo games
      *
      * @param mapSize the size of Map
      */
     public Player(int mapSize) {
+        team = new Team(mapSize);
+        
         Random random = new Random();
         do {
             position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
         } while(Game.map.getTileType(position.x, position.y) != 'g');
         startPosition = new Position(position.x, position.y);
+    }
+    
+    /**
+     * Initialises the player and assigns a random position
+     * This constructor is to be used for collaborative games
+     *
+     * @param mapSize the size of Map
+     */
+    public Player(int mapSize, Team team) {
+        this.team = team;
         
-        uncoveredTiles = new boolean[mapSize][mapSize];
-        for (int y = 0; y < uncoveredTiles.length; y++) {
-            for (int x = 0; x < uncoveredTiles[y].length; x++) {
-                uncoveredTiles[x][y] = (y == startPosition.y && x == startPosition.x);
-            }
-        }
+        Random random = new Random();
+        do {
+            position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
+        } while(Game.map.getTileType(position.x, position.y) != 'g');
+        startPosition = new Position(position.x, position.y);
     }
     
     /**
@@ -87,5 +99,9 @@ public class Player {
      */
     public Position getStartPosition(){
         return new Position(startPosition.x, startPosition.y);
+    }
+    
+    public Team getTeam() {
+        return team;
     }
 }

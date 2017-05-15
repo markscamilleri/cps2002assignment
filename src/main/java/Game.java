@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -20,15 +21,18 @@ public class Game {
     
     public static void main(String[] args) {
         Player playerList[];
+        Team teamList[];
         
         scan.useDelimiter("\n");
         
         final int numOfPlayers = getNumberOfPlayers();
+        final int numOfTeams = getNumberOfTeams(numOfPlayers);
         
         final int mapSize = getMapSize();
         map = getMap(mapSize);
         
-        playerList = createPlayerList(numOfPlayers, mapSize);
+        teamList = createTeamList(numOfTeams, mapSize);
+        playerList = createPlayerList(numOfPlayers, mapSize, teamList);
         
         boolean gameOver = false;
         while (!gameOver) {
@@ -58,6 +62,16 @@ public class Game {
         }
     }
     
+    public static Team[] createTeamList(int numOfTeams, int mapSize) {
+        Team[] teams = new Team[numOfTeams];
+        
+        for (int i = 0; i < teams.length; i++) {
+            teams[i] = new Team(mapSize);
+        }
+        
+        return teams;
+    }
+    
     /**
      * Asks the user for the number of players
      *
@@ -69,9 +83,38 @@ public class Game {
             System.out.println("Enter the number of players:");
             input = scan.nextInt();
         } while (!setNumPlayers(input));
-
+        
         return input;
     }
+    
+    /**
+     * Asks the user whether this is a collaborative game or not
+     * and if yes, the number of teams
+     *
+     * @return the number of teams, this is equal to the number of players if it's a solo game
+     */
+    public static int getNumberOfTeams(int noOfPlayers) {
+        int gameType = 0;
+        
+        do {
+            System.out.println("Enter 1 for a solo game, 2 for a collaborative game: ");
+            gameType = scan.nextInt();
+        } while (gameType < 1 || gameType > 2);
+        
+        if(gameType == 1) {
+            return noOfPlayers;
+        } else {
+            int input;
+            
+            do {
+                System.out.println("Enter the number of teams (1 - "+ (noOfPlayers-1) + ") :");
+                input = scan.nextInt();
+            } while (input < 1 || input >= noOfPlayers);
+    
+            return input;
+        }
+    }
+
     
     /**
      * Prompts the user for the map size and returns it
@@ -89,17 +132,34 @@ public class Game {
     }
     
     /**
-     * Creates the player list
+     * Creates the player lists and randomly assigns every player a team.
      *
      * @param numOfPlayers the number of players that will be playing
      * @param mapSize      the size of the map that is used
+     * @param teams        the teams to put the players in
      * @return the list of players
      */
-    public static Player[] createPlayerList(final int numOfPlayers, final int mapSize) {
+    public static Player[] createPlayerList(final int numOfPlayers, final int mapSize, final Team[] teams) {
         Player[] players = new Player[numOfPlayers];
+        
+        int[] numOfPlayersPerTeam = new int[teams.length];
+    
+        for (int i = 0; i < numOfPlayersPerTeam.length; i++) {
+            numOfPlayersPerTeam[i] = 0;
+        }
+        
+        Random rand = new Random();
+        
         for (int i = 0; i < numOfPlayers; i++) {
-            Player p = new Player(mapSize);
-            players[i] = p;
+            int teamNo = rand.nextInt(teams.length);
+            
+            if(numOfPlayersPerTeam[teamNo] >= numOfPlayers/teams.length){
+                --i;
+            } else {
+                Player p = new Player(mapSize, teams[teamNo]);
+                numOfPlayersPerTeam[teamNo]++;
+                players[i] = p;
+            }
         }
         
         return players;
@@ -153,9 +213,9 @@ public class Game {
      * @return the tile type
      */
     protected static char getLandingTile(Player player, Map map) {
-        String action = "stepped";
-        if (!player.uncoveredTiles[player.position.x][player.position.y]) {
-            player.uncoveredTiles[player.position.x][player.position.y] = true;
+        String action = "stepped on";
+        if (!player.getTeam().isMapTileKnown(player.position.x, player.position.y)) {
+            player.getTeam().discoverTile(player.position.x, player.position.y);
             action = "found";
         }
         
@@ -199,7 +259,7 @@ public class Game {
                 bufferedWriter.write("<tr>");
                 for (int x = 0; x < map.getMapSize()[0]; x++) {
                     String colour;
-                    if (player.uncoveredTiles[x][y]) {
+                    if (player.getTeam().isMapTileKnown(x, y)) {
                         colour = getColour(map.getTileType(x, y));
                     } else {
                         colour = "grey";
