@@ -7,28 +7,41 @@ import java.util.Random;
 
 public class Player {
     
-    private Position startPosition;
     public Position position;
-    public boolean[][] uncoveredTiles;
+    private Position startPosition;
+    private Team team;
     
     /**
      * Initialises the player and assigns a random position
+     * This constructor is to be used for solo games
      *
      * @param mapSize the size of Map
      */
     public Player(int mapSize) {
+        team = new Team(mapSize);
+        
+        startAtRandomTile(mapSize, team);
+    }
+    
+    private void startAtRandomTile(int mapSize, Team team) {
         Random random = new Random();
         do {
             position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
-        } while(Game.map.getTileType(position.x, position.y) != 'g');
+        } while (Game.map.getTileType(position.x, position.y) != 'g');
         startPosition = new Position(position.x, position.y);
+        team.discoverTile(position.x, position.y);
+    }
+    
+    /**
+     * Initialises the player and assigns a random position
+     * This constructor is to be used for collaborative games
+     *
+     * @param mapSize the size of Map
+     */
+    public Player(int mapSize, Team team) {
+        this.team = team;
         
-        uncoveredTiles = new boolean[mapSize][mapSize];
-        for (int y = 0; y < uncoveredTiles.length; y++) {
-            for (int x = 0; x < uncoveredTiles[y].length; x++) {
-                uncoveredTiles[x][y] = (y == startPosition.y && x == startPosition.x);
-            }
-        }
+        startAtRandomTile(mapSize, team);
     }
     
     /**
@@ -40,33 +53,53 @@ public class Player {
      * Inputs are accepted in lower or upper case
      *
      * @param direction the direction the user wants to move
+     * @return true if the move is valid, false otherwise
      */
-    public void move(char direction){
+    public boolean move(char direction) {
         switch (direction) {
-            case 'u': {
-                position.y++;
-                System.out.print("Moved UP");
-                break;
-            }
-            case 'd': {
-                position.y--;
-                System.out.print("Moved DOWN");
-                break;
-            }
-            case 'l': {
-                position.x--;
-                System.out.print("Moved LEFT");
-                break;
-            }
-            case 'r': {
-                position.x++;
-                System.out.print("Moved RIGHT");
-                break;
-            }
-            default: {
+            case 'u':
+                if (position.y + 1 >= team.getMapSize()) {
+                    System.out.println("Invalid move");
+                    System.out.print("You're at the edge of the map");
+                    return false;
+                } else {
+                    position.y++;
+                    System.out.print("Moved UP");
+                    return true;
+                }
+            case 'd':
+                if (position.y - 1 < 0) {
+                    System.out.println("Invalid move");
+                    System.out.print("You're at the edge of the map");
+                    return false;
+                } else {
+                    position.y--;
+                    System.out.print("Moved DOWN");
+                    return true;
+                }
+            case 'l':
+                if (position.x - 1 < 0) {
+                    System.out.println("Invalid move");
+                    System.out.print("You're at the edge of the map");
+                    return false;
+                } else {
+                    position.x--;
+                    System.out.print("Moved LEFT");
+                    return true;
+                }
+            case 'r':
+                if (position.x + 1 >= team.getMapSize()) {
+                    System.out.println("Invalid move");
+                    System.out.print("You're at the edge of the map");
+                    return false;
+                } else {
+                    position.x++;
+                    System.out.print("Moved RIGHT");
+                    return true;
+                }
+            default:
                 System.out.print("Invalid move");
-                break;
-            }
+                return false;
         }
     }
     
@@ -83,9 +116,14 @@ public class Player {
     
     /**
      * Returns the a copy of the start position.
+     *
      * @return a deep copy of the player's start position
      */
-    public Position getStartPosition(){
+    public Position getStartPosition() {
         return new Position(startPosition.x, startPosition.y);
+    }
+    
+    public Team getTeam() {
+        return team;
     }
 }

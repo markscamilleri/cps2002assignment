@@ -14,6 +14,7 @@ public class GameTest {
     private int NUMBER_OF_PLAYERS;
     private int MAP_SIZE;
     
+    private Team[] teams;
     private Player[] players;
     private Map map;
     
@@ -29,7 +30,9 @@ public class GameTest {
         MAP_SIZE = 8;
         map = new Map(MAP_SIZE, MAP_SIZE);
         Game.map = map;
-        players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
+        
+        teams = Game.createTeamList(NUMBER_OF_PLAYERS, MAP_SIZE);
+        players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE, teams);
     
         System.setOut(new PrintStream(output));
     }
@@ -60,13 +63,29 @@ public class GameTest {
     }
     
     @Test
-    public void testGeneratedHTMLFiles() throws Exception{
-        Game.generateHTMLFiles(players);
+    public void testGeneratedPlayerHTMLFiles() throws Exception{
+        Game.generateHTMLFiles(teams, players);
         
         for(int i=0; i < NUMBER_OF_PLAYERS; i++) {
             String filename = "map_player_" + (i+1) + ".html";
             String pathToFile = "src/gamefiles/"+filename;
-
+            
+            File file = new File(pathToFile);
+            Assert.assertTrue(file.exists());
+        }
+    }
+    
+    @Test
+    public void testGeneratedTeamHTMLFiles() throws Exception{
+        teams = Game.createTeamList(NUMBER_OF_PLAYERS/2, MAP_SIZE);
+        players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE, teams);
+    
+        Game.generateHTMLFiles(teams, players);
+        
+        for(int i=0; i < NUMBER_OF_PLAYERS/2; i++) {
+            String filename = "map_team_" + (i+1) + ".html";
+            String pathToFile = "src/gamefiles/"+filename;
+            
             File file = new File(pathToFile);
             Assert.assertTrue(file.exists());
         }
@@ -101,7 +120,7 @@ public class GameTest {
     
     @Test
     public void testCreatePlayerList() throws Exception {
-        Player[] test = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE);
+        Player[] test = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE, teams);
         
         Assert.assertEquals(NUMBER_OF_PLAYERS, test.length);
     
@@ -109,6 +128,19 @@ public class GameTest {
             Assert.assertNotNull(player);
         }
     }
+
+    @Test
+    public void testCreateTeamList() throws Exception {
+        Team[] test = Game.createTeamList(NUMBER_OF_PLAYERS, MAP_SIZE);
+    
+        Assert.assertEquals(NUMBER_OF_PLAYERS, test.length);
+    
+        for (Team team : test) {
+            Assert.assertNotNull(team);
+        }
+    }
+    
+    
     
     @After
     public void tearDown() throws Exception {

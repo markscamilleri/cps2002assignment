@@ -31,35 +31,58 @@ public class PlayerMoveTest{
     @Test
     public void testPlayerMove_u() throws Exception{
         //up entering 'u';
-        player.move('u');
-        Assert.assertEquals(player.position.x, player.position.x++);
-        Assert.assertEquals("Moved UP", outContent.toString());
+        Position pos = new Position(player.position.x, player.position.y+1);
+        
+        if(player.move('u')) {
+            Assert.assertEquals(pos.y, player.position.y);
+            Assert.assertEquals("Moved UP", outContent.toString());
+        } else {
+            Assert.assertEquals(pos.y-1, player.position.y);
+            Assert.assertEquals("Invalid move\nYou're at the edge of the map", outContent.toString());
+        }
     }
 
     @Test
     public void testPlayerMove_d() throws Exception{
         //down entering 'd'
-        player.move('d');
-        Assert.assertEquals(player.position.y, player.position.y--);
-        Assert.assertEquals("Moved DOWN", outContent.toString());
+        Position pos = new Position(player.position.x, player.position.y-1);
+    
+        if(player.move('d')) {
+            Assert.assertEquals(pos.y, player.position.y);
+            Assert.assertEquals("Moved DOWN", outContent.toString());
+        } else {
+            Assert.assertEquals(pos.y+1, player.position.y);
+            Assert.assertEquals("Invalid move\nYou're at the edge of the map", outContent.toString());
+        }
     }
 
     @Test
     public void testPlayerMove_l() throws Exception{
-        //left entering 'l'
-        player.move('l');
-        Assert.assertEquals(player.position.x, player.position.x--);
-        Assert.assertEquals("Moved LEFT", outContent.toString());
+        Position pos = new Position(player.position.x-1, player.position.y);
+    
+        //entering l for left
+        if(player.move('l')) {
+            Assert.assertEquals(pos.x, player.position.x);
+            Assert.assertEquals("Moved LEFT", outContent.toString());
+        } else {
+            Assert.assertEquals(pos.x+1, player.position.x);
+            Assert.assertEquals("Invalid move\nYou're at the edge of the map", outContent.toString());
+        }
     }
 
     @Test
     public void testPlayerMove_r() throws Exception{
-        //right entering 'r'
-        player.move('r');
-        Assert.assertEquals(player.position.x, player.position.x++);
-        Assert.assertEquals("Moved RIGHT", outContent.toString());
+        Position pos = new Position(player.position.x+1, player.position.y);
+    
+        //entering r for right
+        if(player.move('r')) {
+            Assert.assertEquals(pos.x, player.position.x);
+            Assert.assertEquals("Moved RIGHT", outContent.toString());
+        } else {
+            Assert.assertEquals(pos.x-1, player.position.x);
+            Assert.assertEquals("Invalid move\nYou're at the edge of the map", outContent.toString());
+        }
     }
-
     @Test
     public void testInvalidMove() throws Exception{
         player.move('w');
