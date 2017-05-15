@@ -39,4 +39,8 @@ public class Team {
     public void discoverTile(int x, int y) {
         uncoveredTiles[x][y] = true;
     }
+    
+    public int getMapSize() {
+        return uncoveredTiles.length;
+    }
 }

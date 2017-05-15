@@ -228,6 +228,8 @@ public class Game {
     
     private static void getNextMove(Player player, int playerIndex) {
         char move;
+        boolean moveIsValid = true;
+        
         do {
             System.out.println("Player " + (playerIndex + 1) + "'s turn.");
             System.out.println("Enter your move.");
@@ -242,10 +244,10 @@ public class Game {
             } else {
                 move = ' '; // Makes the input loop
             }
-            player.move(move);
+            moveIsValid = player.move(move);
             System.out.print("\n");
         }
-        while (!(move == 'u' || move == 'd' || move == 'l' || move == 'r'));
+        while (!moveIsValid);
     }
     
     /**
