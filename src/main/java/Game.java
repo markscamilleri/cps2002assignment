@@ -35,10 +35,11 @@ public class Game {
         playerList = createPlayerList(numOfPlayers, mapSize, teamList);
         
         boolean gameOver = false;
+    
+        //generate HTML Game Files for each Player
+        generateHTMLFiles(teamList, playerList);
+    
         while (!gameOver) {
-            //generate HTML Game Files for each Player
-            generateHTMLFiles(teamList, playerList);
-            
             // Loop till winning
             for (int i = 0; i < playerList.length; i++) {
                 Player player = playerList[i];
@@ -59,6 +60,9 @@ public class Game {
                     System.out.println("Player " + (i + 1) + " wins!");
                 }
             }
+            
+            //generate HTML Game Files for each Player
+            generateHTMLFiles(teamList, playerList);
         }
     }
     
