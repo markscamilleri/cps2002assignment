@@ -68,7 +68,7 @@ public class GameTest {
         
         for(int i=0; i < NUMBER_OF_PLAYERS; i++) {
             String filename = "map_player_" + (i+1) + ".html";
-            String pathToFile = "src/gamefiles/"+filename;
+            String pathToFile = "gamefiles/"+filename;
             
             File file = new File(pathToFile);
             Assert.assertTrue(file.exists());
@@ -84,7 +84,7 @@ public class GameTest {
         
         for(int i=0; i < NUMBER_OF_PLAYERS/2; i++) {
             String filename = "map_team_" + (i+1) + ".html";
-            String pathToFile = "src/gamefiles/"+filename;
+            String pathToFile = "gamefiles/"+filename;
             
             File file = new File(pathToFile);
             Assert.assertTrue(file.exists());
