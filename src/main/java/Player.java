@@ -19,12 +19,8 @@ public class Player {
      */
     public Player(int mapSize) {
         team = new Team(mapSize);
-        
-        Random random = new Random();
-        do {
-            position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
-        } while(Game.map.getTileType(position.x, position.y) != 'g');
-        startPosition = new Position(position.x, position.y);
+    
+        startAtRandomTile(mapSize, team);
     }
     
     /**
@@ -35,12 +31,17 @@ public class Player {
      */
     public Player(int mapSize, Team team) {
         this.team = team;
-        
+    
+        startAtRandomTile(mapSize, team);
+    }
+    
+    private void startAtRandomTile(int mapSize, Team team) {
         Random random = new Random();
         do {
             position = new Position(random.nextInt(mapSize), random.nextInt(mapSize));
         } while(Game.map.getTileType(position.x, position.y) != 'g');
         startPosition = new Position(position.x, position.y);
+        team.discoverTile(position.x, position.y);
     }
     
     /**

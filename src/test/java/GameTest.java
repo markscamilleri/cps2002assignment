@@ -63,13 +63,29 @@ public class GameTest {
     }
     
     @Test
-    public void testGeneratedHTMLFiles() throws Exception{
-        Game.generateHTMLFiles(players);
+    public void testGeneratedPlayerHTMLFiles() throws Exception{
+        Game.generateHTMLFiles(teams, players);
         
         for(int i=0; i < NUMBER_OF_PLAYERS; i++) {
             String filename = "map_player_" + (i+1) + ".html";
             String pathToFile = "src/gamefiles/"+filename;
-
+            
+            File file = new File(pathToFile);
+            Assert.assertTrue(file.exists());
+        }
+    }
+    
+    @Test
+    public void testGeneratedTeamHTMLFiles() throws Exception{
+        teams = Game.createTeamList(NUMBER_OF_PLAYERS/2, MAP_SIZE);
+        players = Game.createPlayerList(NUMBER_OF_PLAYERS, MAP_SIZE, teams);
+    
+        Game.generateHTMLFiles(teams, players);
+        
+        for(int i=0; i < NUMBER_OF_PLAYERS/2; i++) {
+            String filename = "map_team_" + (i+1) + ".html";
+            String pathToFile = "src/gamefiles/"+filename;
+            
             File file = new File(pathToFile);
             Assert.assertTrue(file.exists());
         }

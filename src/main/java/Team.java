@@ -37,6 +37,6 @@ public class Team {
      * @param y the y-coordinate in the map
      */
     public void discoverTile(int x, int y) {
-        uncoveredTiles[y][x] = true;
+        uncoveredTiles[x][y] = true;
     }
 }
