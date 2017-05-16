@@ -6,13 +6,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * @author Denise Buttigieg
+ * @author denise
  * @version 13/04/2017.
  */
 
 public class Game {
     static Map map;
     private static Scanner scan = new Scanner(System.in);
+    
     
     //This class can't be instantiated
     private Game() {
@@ -34,10 +35,10 @@ public class Game {
         playerList = createPlayerList(numOfPlayers, mapSize, teamList);
         
         boolean gameOver = false;
-    
+        
         //generate HTML Game Files for each Player
         generateHTMLFiles(teamList, playerList);
-    
+        
         while (!gameOver) {
             // Loop till winning
             for (int i = 0; i < playerList.length; i++) {
@@ -146,14 +147,7 @@ public class Game {
             return new HazardousMap(mapSize, mapSize);
         }
     }
-
-    /**
-     * Creates the Team Lists
-     *
-     * @param numOfTeams the number of teams required
-     * @param mapSize    the size of the map that is used
-     * @return the list of teams
-     */
+    
     public static Team[] createTeamList(int numOfTeams, int mapSize) {
         Team[] teams = new Team[numOfTeams];
         
@@ -217,31 +211,28 @@ public class Game {
      */
     public static void generateHTMLFiles(Team[] teams, Player[] players) {
         //Deleting all previously created game files
-        File dir = new File("src/gamefiles");
+        final String FOLDER = "gamefiles";
+        File dir = new File(FOLDER);
+        dir.mkdir();
         for (File file : dir.listFiles()) {
             if (!file.isDirectory()) {
                 file.delete();
             }
         }
         
+        
         if (teams.length == players.length) {
             //Creating new game files according to the new game
             for (int playerIndex = 1; playerIndex <= players.length; playerIndex++) {
-                generateHTMLFile(players[playerIndex - 1], playerIndex);
+                generateHTMLFile(players[playerIndex - 1], playerIndex, FOLDER);
             }
         } else {
             for (int teamIndex = 1; teamIndex <= teams.length; teamIndex++) {
-                generateHTMLFile(teams[teamIndex - 1], players, teamIndex);
+                generateHTMLFile(teams[teamIndex - 1], players, teamIndex, FOLDER);
             }
         }
     }
-
-    /**
-     * Validates the player's next move
-     *
-     * @param player        the player currently in turn
-     * @param playerIndex   index of the player currently in turn
-     */
+    
     private static void getNextMove(Player player, int playerIndex) {
         char move;
         boolean moveIsValid = true;
@@ -303,16 +294,10 @@ public class Game {
     public static boolean setNumPlayers(int n) {
         return !(n < 2 || n > 8);
     }
-
-    /**
-     * Generates an HTML game file for a single player
-     *
-     * @param player      the player who requires the file
-     * @param playerIndex index of the player who requires the file
-     */
-    private static void generateHTMLFile(Player player, int playerIndex) {
+    
+    private static void generateHTMLFile(Player player, int playerIndex, final String directory) {
         String filename = "map_player_" + playerIndex + ".html";
-        String pathToFile = "src/gamefiles/" + filename;
+        String pathToFile = directory + "/" + filename;
         
         
         BufferedWriter bufferedWriter = null;
@@ -355,17 +340,10 @@ public class Game {
             }
         }
     }
-
-    /**
-     * Generates an HTML game file for a team
-     *
-     * @param team          the team who needs the game file
-     * @param playerList    the players forming the team
-     * @param teamIndex     index of the team
-     */
-    private static void generateHTMLFile(Team team, Player[] playerList, int teamIndex) {
+    
+    private static void generateHTMLFile(Team team, Player[] playerList, int teamIndex, final String directory) {
         String filename = "map_team_" + teamIndex + ".html";
-        String pathToFile = "src/gamefiles/" + filename;
+        String pathToFile = directory + "/" + filename;
         
         
         BufferedWriter bufferedWriter = null;
