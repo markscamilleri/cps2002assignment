@@ -85,6 +85,7 @@ public class Game {
      * Asks the user whether this is a collaborative game or not
      * and if yes, the number of teams
      *
+     * @param noOfPlayers the total number of players in the game
      * @return the number of teams, this is equal to the number of players if it's a solo game
      */
     public static int getNumberOfTeams(int noOfPlayers) {
@@ -215,6 +216,9 @@ public class Game {
     
     /**
      * Generates Game HTML Files for each player
+     *
+     * @param teams  the list of teams
+     * @param players the list of players
      */
     public static void generateHTMLFiles(Team[] teams, Player[] players) {
         //Deleting all previously created game files

@@ -43,6 +43,7 @@ public class Player {
      * This constructor is to be used for collaborative games
      *
      * @param mapSize the size of Map
+     * @param team the team to assign players to
      */
     public Player(int mapSize, Team team) {
         this.team = team;
@@ -113,6 +114,7 @@ public class Player {
      * Checks the position of the player
      *
      * @param p the position of the player
+     * @param map the map
      * @return true if the tile is OK to land on, false otherwise
      */
     

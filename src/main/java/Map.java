@@ -21,7 +21,7 @@ public class Map {
      * @param x the x-axis size
      * @param y the y-axis size
      * @throws IllegalArgumentException if the map size is too big
-     *                                  (x or y > 50) or too small (x or y < 5)
+     *                                  (x or y &gt; 50) or too small (x or y &lt; 5)
      */
     public Map(int x, int y) throws IllegalArgumentException {
         if (!setMapSize(x, y))
