@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author mark
+ * @author Mark Said Camilleri
  * @version 13/04/17.
  */
 public class MapTest {

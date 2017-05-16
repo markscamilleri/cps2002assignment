@@ -6,14 +6,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * @author denise
+ * @author Denise Buttigieg
  * @version 13/04/2017.
  */
 
 public class Game {
     static Map map;
     private static Scanner scan = new Scanner(System.in);
-    
     
     //This class can't be instantiated
     private Game() {
@@ -147,7 +146,14 @@ public class Game {
             return new HazardousMap(mapSize, mapSize);
         }
     }
-    
+
+    /**
+     * Creates the Team Lists
+     *
+     * @param numOfTeams the number of teams required
+     * @param mapSize    the size of the map that is used
+     * @return the list of teams
+     */
     public static Team[] createTeamList(int numOfTeams, int mapSize) {
         Team[] teams = new Team[numOfTeams];
         
@@ -229,7 +235,13 @@ public class Game {
             }
         }
     }
-    
+
+    /**
+     * Validates the player's next move
+     *
+     * @param player        the player currently in turn
+     * @param playerIndex   index of the player currently in turn
+     */
     private static void getNextMove(Player player, int playerIndex) {
         char move;
         boolean moveIsValid = true;
@@ -291,7 +303,13 @@ public class Game {
     public static boolean setNumPlayers(int n) {
         return !(n < 2 || n > 8);
     }
-    
+
+    /**
+     * Generates an HTML game file for a single player
+     *
+     * @param player      the player who requires the file
+     * @param playerIndex index of the player who requires the file
+     */
     private static void generateHTMLFile(Player player, int playerIndex) {
         String filename = "map_player_" + playerIndex + ".html";
         String pathToFile = "src/gamefiles/" + filename;
@@ -337,7 +355,14 @@ public class Game {
             }
         }
     }
-    
+
+    /**
+     * Generates an HTML game file for a team
+     *
+     * @param team          the team who needs the game file
+     * @param playerList    the players forming the team
+     * @param teamIndex     index of the team
+     */
     private static void generateHTMLFile(Team team, Player[] playerList, int teamIndex) {
         String filename = "map_team_" + teamIndex + ".html";
         String pathToFile = "src/gamefiles/" + filename;

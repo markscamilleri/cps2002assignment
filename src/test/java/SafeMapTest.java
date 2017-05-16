@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author denise
+ * @author Denise Buttigieg
  * @version 12/05/2017.
  */
 public class SafeMapTest {

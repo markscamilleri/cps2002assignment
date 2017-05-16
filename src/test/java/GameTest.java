@@ -7,7 +7,7 @@ import java.io.*;
 
 
 /**
- * @author denise
+ * @author Denise Buttigieg
  * @version 13/04/2017
  */
 public class GameTest {

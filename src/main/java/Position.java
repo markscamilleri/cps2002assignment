@@ -1,5 +1,5 @@
 /**
- * @author denise
+ * @author Denise Buttigieg
  * @version 12/04/2017.
  */
 public class Position {

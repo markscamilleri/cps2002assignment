@@ -11,7 +11,12 @@ public class Team {
     public Team(int mapSize) {
         setTilesToFalse(mapSize);
     }
-    
+
+    /**
+     * Creates an empty map for a team
+     *
+     * @param mapSize the size of the Map
+     */
     private void setTilesToFalse(int mapSize) {
         uncoveredTiles = new boolean[mapSize][mapSize];
         for (int y = 0; y < uncoveredTiles.length; y++) {
@@ -39,7 +44,12 @@ public class Team {
     public void discoverTile(int x, int y) {
         uncoveredTiles[x][y] = true;
     }
-    
+
+    /**
+     * Gets the total number of map tiles
+     *
+     * @return total number of tiles on the map
+     */
     public int getMapSize() {
         return uncoveredTiles.length;
     }

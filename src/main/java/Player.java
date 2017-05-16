@@ -1,7 +1,7 @@
 import java.util.Random;
 
 /**
- * @author denise
+ * @author Denise Buttigieg
  * @version 13/04/2017
  */
 
@@ -22,7 +22,13 @@ public class Player {
         
         startAtRandomTile(mapSize, team);
     }
-    
+
+    /**
+     * Gets random starting position
+     *
+     * @param mapSize size of the Map
+     * @param team    the team the player is allocated to
+     */
     private void startAtRandomTile(int mapSize, Team team) {
         Random random = new Random();
         do {
@@ -122,7 +128,12 @@ public class Player {
     public Position getStartPosition() {
         return new Position(startPosition.x, startPosition.y);
     }
-    
+
+    /**
+     * Gets the team containing players
+     *
+     * @return team with players
+     */
     public Team getTeam() {
         return team;
     }
